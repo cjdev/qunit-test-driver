@@ -3,6 +3,7 @@ package cj.htmlunit
 import com.gargoylesoftware.htmlunit.html.DomNode
 import com.gargoylesoftware.htmlunit.html.HtmlElement
 import com.gargoylesoftware.htmlunit.html.HtmlImage
+import com.davidron.qunitTestDriver.PageDriver;
 import static org.junit.Assert.*
 
 class CJElement {

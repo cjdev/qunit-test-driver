@@ -1,14 +1,12 @@
 package com.davidron.qunitTestDriver
 
-
 import com.gargoylesoftware.htmlunit.html.DomNode
-import cj.htmlunit.CJPage
-import cj.htmlunit.PageDriver
 
-public class QUnitTestPage extends CJPage{
+public class QUnitTestPage {
+	PageDriver driver;
 
     public QUnitTestPage(URL url){
-        super(new PageDriver(url.toString(), Locale.ENGLISH))
+        driver = new PageDriver(url.toString())
         driver.waitForAjax()
         
         waitForQunitTests()
@@ -19,7 +17,7 @@ public class QUnitTestPage extends CJPage{
     }
     
     void waitForQunitTests() {
-        driver.waitForTextToBePresent("Tests completed in")
+        //driver.waitForTextToBePresent("Tests completed in")
     }
 
     public void assertTestsPass(){
@@ -39,11 +37,11 @@ public class QUnitTestPage extends CJPage{
     }
     
     Integer failed(){
-        def failed = element().withClass("failed")
-        Integer.parseInt(failed.getText())
+        def failed = new CJElement(driver).withClass("failed")
+        Integer.parseInt(failed.asText())
     }
     
     Integer passed(){
-        Integer.parseInt(element().withClass("passed").getText())
+        Integer.parseInt(new CJElement(driver).withClass("passed").asText())
     }
 }
