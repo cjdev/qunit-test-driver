@@ -1,4 +1,4 @@
-package cj.qunit
+package com.davidron.qunitTestDriver
 
 class QUnitJettyTestRunner {
     private final JettyServer server

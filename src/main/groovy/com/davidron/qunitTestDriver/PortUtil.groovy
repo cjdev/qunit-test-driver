@@ -1,4 +1,4 @@
-package cj.qunit;
+package com.davidron.qunitTestDriver;
 
 public class PortUtil {
 	public static int getPort(Properties props, int defaultPort){

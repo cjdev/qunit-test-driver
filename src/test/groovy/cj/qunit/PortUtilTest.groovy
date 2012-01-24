@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.davidron.qunitTestDriver.PortUtil;
+
 class PortUtilTest {
 	@Test
 	public void appendsPortDiscriminatorProperly(){

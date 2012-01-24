@@ -1,6 +1,10 @@
 package cj.qunit
 
 import org.junit.Test
+
+import com.davidron.qunitTestDriver.QUnitJettyTestRunner;
+import com.davidron.qunitTestDriver.QUnitTestPage;
+
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 
@@ -34,7 +38,7 @@ class QUnitTestPageTest {
     }
     
     @Test
-    void noTestsOnPageShouldFail(){
+    void allTestsShouldPass(){
         String noTestPageUrl="src/test/resources/QUnitTestPageWithNoTests.html"
         QUnitJettyTestRunner runner = new QUnitJettyTestRunner(this.class, noTestPageUrl)
         QUnitTestPage page = runner.getTestPage()
