@@ -35,47 +35,6 @@ class PageDriver {
         navigateTo(url)
         this.locale = locale
     }
-
-    public CJSpan span() {
-        new CJSpan(this)
-    }
-
-    public CJElement element() {
-        new CJElement(this)
-    }
-
-    public CJInput input() {
-        new CJInput(this)
-    }
-
-    public CJTextBox textBox() {
-        new CJTextBox(this)
-    }
-
-    public CJButton button() {
-        new CJButton(this)
-    }
-
-    public CJAnchor anchor() {
-        new CJAnchor(this)
-    }
-
-    public CJRadio radio() {
-        new CJRadio(this)
-    }
-
-    public CJDropDownList dropDownList() {
-        new CJDropDownList(this)
-    }
-
-    public CJCheckBox checkBox() {
-        new CJCheckBox(this)
-    }
-
-    public CJTextArea textArea() {
-        new CJTextArea(this)
-    }
-
     protected HtmlPage getPage() {
         return page
     }

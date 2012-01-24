@@ -21,46 +21,6 @@ class CJPage {
         this.driver = driver
     }
 
-    public CJSpan span() {
-        driver.span()
-    }
-
-    public CJElement element() {
-        driver.element();
-    }
-
-    public CJInput input() {
-        driver.input()
-    }
-
-    public CJTextBox textBox() {
-        driver.textBox()
-    }
-
-    public CJButton button() {
-        driver.button()
-    }
-
-    public CJAnchor anchor() {
-        driver.anchor()
-    }
-
-    public CJRadio radio() {
-        driver.radio()
-    }
-
-    public CJDropDownList dropDownList() {
-        driver.dropDownList()
-    }
-
-    public CJTextArea textArea() {
-        driver.textArea()
-    }
-
-    public CJCheckBox checkBox() {
-        driver.checkBox()
-    }
-
     public String getTitleText() {
         driver.getTitleText()
     }
