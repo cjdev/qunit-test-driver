@@ -10,8 +10,17 @@ public class JettyServer {
     public static final Integer DEFAULT_PORT = 9098
     private static final String DEFAULT_SERVER_ROOT = "/"
 
-    public JettyServer(final int port, final String serverRoot) throws Exception {
-        server = new Server(port)
+    public JettyServer(String serverRoot, Integer... ports) throws Exception {
+		Integer finalPort
+		for(Integer port: ports){
+			try{
+				finalPort = port
+				server = new Server(port)
+				break;
+			}catch(Exception e){}
+		}
+		
+		
 
         ResourceHandler resourceHandler = new ResourceHandler()
         resourceHandler.directoriesListed = true
@@ -22,7 +31,7 @@ public class JettyServer {
         handlers.addHandler(new DefaultHandler())
         server.handler = handlers
 
-        println("Starting Jetty server for QUnit tests on port " + port + " with root " + serverRoot)
+        println("Starting Jetty server for QUnit tests on port " + finalPort + " with root " + serverRoot)
         server.start();
     }
 

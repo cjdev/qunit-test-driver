@@ -6,7 +6,7 @@ class QUnitJettyTestRunner {
     private final String testRelativePath
 
     public QUnitJettyTestRunner(String testRelativePath) {
-        this.server = new JettyServer(getPort(), "./")
+        this.server = new JettyServer("./", getPort())
         this.testRelativePath = testRelativePath
     }
 
