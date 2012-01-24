@@ -17,7 +17,7 @@ public class QUnitTestPage {
     }
     
     void waitForQunitTests() {
-        //driver.waitForTextToBePresent("Tests completed in")
+        driver.waitForTextToBePresent("Tests completed in")
     }
 
     public void assertTestsPass(){
