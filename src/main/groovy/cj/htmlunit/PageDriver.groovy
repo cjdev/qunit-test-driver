@@ -35,6 +35,11 @@ class PageDriver {
         navigateTo(url)
         this.locale = locale
     }
+
+    public CJElement element() {
+        new CJElement(this)
+    }
+
     protected HtmlPage getPage() {
         return page
     }

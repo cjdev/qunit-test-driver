@@ -21,6 +21,10 @@ class CJPage {
         this.driver = driver
     }
 
+    public CJElement element() {
+        driver.element();
+    }
+
     public String getTitleText() {
         driver.getTitleText()
     }
