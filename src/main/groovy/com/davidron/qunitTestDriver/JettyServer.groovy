@@ -17,21 +17,25 @@ public class JettyServer {
 		resourceHandler.directoriesListed = true
 		resourceHandler.resourceBase = serverRoot
 
-		HandlerList handlers = new HandlerList()
-		handlers.addHandler(resourceHandler)
-		handlers.addHandler(new DefaultHandler())
 				
 		for(Integer port: ports){
 			try{
+				println("Starting Jetty server for QUnit tests on port " + port + " with root " + serverRoot)
+				
+				HandlerList handlers = new HandlerList()
+				handlers.addHandler(resourceHandler)
+				handlers.addHandler(new DefaultHandler())
+
 				finalPort = port
 				server = new Server(port)
 
-				server.handler = handlers
+				server.setHandler(handlers)
 		
-				println("Starting Jetty server for QUnit tests on port " + finalPort + " with root " + serverRoot)
 				server.start();
 				break;
-			}catch(Exception e){}
+			}catch(Exception e){
+				println("That port didn't work...")
+			}
 		}
 		
 		if (server==null || !server.isStarted()){
