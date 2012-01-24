@@ -1,4 +1,4 @@
-package cj.qunit
+package com.davidron.qunitTestDriver
 
 import org.junit.Test
 
@@ -8,10 +8,7 @@ import com.davidron.qunitTestDriver.QUnitTestPage;
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 
-/**
- * Looking for a demonstration about how to write Javascript Tests?  
- * Check out QUnitDemoIntegration.groovy!
- */
+
 class QUnitTestPageTest {
     final String testPageUrl="src/test/resources/QUnitTestPageTest.html"
     
@@ -52,8 +49,6 @@ class QUnitTestPageTest {
             assertTrue(e.toString().contains("no tests found"))
             exception=true
         }
-        assertTrue("qUnit should have reported back no tests.", exception)
-        
+        assertTrue("qUnit should have reported back no tests.", exception)       
     }
-
 }

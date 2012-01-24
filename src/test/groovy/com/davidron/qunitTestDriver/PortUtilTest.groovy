@@ -1,4 +1,4 @@
-package cj.qunit;
+package com.davidron.qunitTestDriver;
 
 import static org.junit.Assert.*;
 
