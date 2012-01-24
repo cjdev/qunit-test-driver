@@ -1,4 +1,4 @@
-package com.davidron.qunitTestDriver
+package com.googlecode.qunitTestDriver
 
 import com.gargoylesoftware.htmlunit.html.DomNode
 

@@ -1,4 +1,4 @@
-package com.davidron.qunitTestDriver
+package com.googlecode.qunitTestDriver
 
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.handler.ResourceHandler

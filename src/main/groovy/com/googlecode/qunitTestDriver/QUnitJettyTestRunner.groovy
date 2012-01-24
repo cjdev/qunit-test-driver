@@ -1,6 +1,4 @@
-package com.davidron.qunitTestDriver
-
-import com.davidron.qunitTestDriver.JettyServer
+package com.googlecode.qunitTestDriver
 
 class QUnitJettyTestRunner {
     private final JettyServer server

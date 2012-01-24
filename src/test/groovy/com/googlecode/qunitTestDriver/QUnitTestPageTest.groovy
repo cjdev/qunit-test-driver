@@ -1,10 +1,6 @@
-package com.davidron.qunitTestDriver
+package com.googlecode.qunitTestDriver
 
 import org.junit.Test
-
-import com.davidron.qunitTestDriver.QUnitJettyTestRunner;
-import com.davidron.qunitTestDriver.QUnitTestPage;
-
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 
