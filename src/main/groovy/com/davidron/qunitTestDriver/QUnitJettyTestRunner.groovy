@@ -5,21 +5,14 @@ class QUnitJettyTestRunner {
     private static String DEFAULT_SERVER_ROOT = "/"
     private final String testRelativePath
 
-    public QUnitJettyTestRunner(Class testClass, String testRelativePath) {
-        this.server = new JettyServer(getPort(), parseServerRoot(testClass))
+    public QUnitJettyTestRunner(String testRelativePath) {
+        this.server = new JettyServer(getPort(), "./")
         this.testRelativePath = testRelativePath
     }
 
-    private String parseServerRoot(Class testClass) {
-        String classPath = testClass.protectionDomain.codeSource.location.path
-        int indexOfTarget = classPath.indexOf("/target/")
-        String serverRoot = classPath.substring(0, indexOfTarget)
 
-        return serverRoot + "/"
-    }
-
-    public static void run(Class testClass, String testRelativePath) {
-        QUnitJettyTestRunner runner = new QUnitJettyTestRunner(testClass, testRelativePath)
+    public static void run(String testRelativePath) {
+        QUnitJettyTestRunner runner = new QUnitJettyTestRunner(testRelativePath)
         try {
             runner.getTestPage().assertTestsPass()
         } finally {
