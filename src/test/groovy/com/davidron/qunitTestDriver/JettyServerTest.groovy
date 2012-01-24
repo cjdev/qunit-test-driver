@@ -23,8 +23,6 @@ class JettyServerTest {
 		JettyServer server = new JettyServer("", GOOD_PORT_RANGE as Integer[]);
 		assertFalse(server.getPort() == BAD_PORT)
 		assertTrue(GOOD_PORT_RANGE.contains(server.getPort()))
-		//assertTrue(GOOD_PORT_RANGE.contains(8))
-		//fail("What?")
 	}
 
 
