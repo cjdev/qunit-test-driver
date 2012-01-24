@@ -6,33 +6,37 @@ import org.eclipse.jetty.server.handler.HandlerList
 import org.eclipse.jetty.server.handler.DefaultHandler
 
 public class JettyServer {
-    private final Server server
+    private final Server server=null;
     public static final Integer DEFAULT_PORT = 9098
     private static final String DEFAULT_SERVER_ROOT = "/"
+	Integer finalPort
 
     public JettyServer(String serverRoot, Integer... ports) throws Exception {
-		Integer finalPort
+		
+		ResourceHandler resourceHandler = new ResourceHandler()
+		resourceHandler.directoriesListed = true
+		resourceHandler.resourceBase = serverRoot
+
+		HandlerList handlers = new HandlerList()
+		handlers.addHandler(resourceHandler)
+		handlers.addHandler(new DefaultHandler())
+				
 		for(Integer port: ports){
 			try{
 				finalPort = port
 				server = new Server(port)
+
+				server.handler = handlers
+		
+				println("Starting Jetty server for QUnit tests on port " + finalPort + " with root " + serverRoot)
+				server.start();
 				break;
 			}catch(Exception e){}
 		}
 		
-		
-
-        ResourceHandler resourceHandler = new ResourceHandler()
-        resourceHandler.directoriesListed = true
-        resourceHandler.resourceBase = serverRoot
-
-        HandlerList handlers = new HandlerList()
-        handlers.addHandler(resourceHandler)
-        handlers.addHandler(new DefaultHandler())
-        server.handler = handlers
-
-        println("Starting Jetty server for QUnit tests on port " + finalPort + " with root " + serverRoot)
-        server.start();
+		if (server==null || !server.isStarted()){
+			throw new RuntimeException("No Available Ports To Start Jetty");
+		}
     }
 
     public void stop() throws Exception {
@@ -42,6 +46,10 @@ public class JettyServer {
     private void join() throws InterruptedException {
         server.join()
     }
+	
+	public Integer getPort(){
+		return finalPort
+	}
 
     public static void main(String[] arrrg) throws Exception {
         String[] args = arrrg[0].split(",")

@@ -1,12 +1,15 @@
 package com.davidron.qunitTestDriver
 
+import com.davidron.qunitTestDriver.JettyServer
+
 class QUnitJettyTestRunner {
     private final JettyServer server
     private static String DEFAULT_SERVER_ROOT = "/"
     private final String testRelativePath
+	static final Integer[] GOOD_PORT_RANGE = [9086];
 
     public QUnitJettyTestRunner(String testRelativePath) {
-        this.server = new JettyServer("./", getPort())
+        this.server = new JettyServer("./", GOOD_PORT_RANGE)
         this.testRelativePath = testRelativePath
     }
 
@@ -22,15 +25,11 @@ class QUnitJettyTestRunner {
     }
     
     protected QUnitTestPage getTestPage() {
-        return new QUnitTestPage(getPort(), testRelativePath)
+        return new QUnitTestPage(server.getPort(), testRelativePath)
     }
 
     public void stopServer() {
         server.stop()
-    }
-
-    private static int getPort() {
-		PortUtil.getPort(System.getProperties(), JettyServer.DEFAULT_PORT);
     }
 
     public JettyServer getServer() {
