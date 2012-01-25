@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 
 
-class QUnitTestPageTest {
+class QUnitTestDriverTest {
     final String testPageUrl="src/test/resources/QUnitTestPageTest.html"
     
     @Test

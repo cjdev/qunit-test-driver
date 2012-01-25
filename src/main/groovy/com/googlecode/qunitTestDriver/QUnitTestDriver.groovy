@@ -3,10 +3,10 @@ package com.googlecode.qunitTestDriver
 import com.googlecode.qunitTestDriver.config.Configuration
 
 class QUnitTestDriver {
-    private final JettyServer server
-    private static String DEFAULT_SERVER_ROOT = "/"
-    private final String testRelativePath
-	private Integer[] portRange = [8098, 8198, 8298, 8398, 8498, 8598, 8698, 8798]
+    final JettyServer server
+    String serverRoot = "/"
+    final String testRelativePath
+	Integer[] portRange = [8098, 8198, 8298, 8398, 8498, 8598, 8698, 8798]
 
     public QUnitTestDriver(String testRelativePath, Configuration... configs) {
 		for(Configuration config: configs){
@@ -17,8 +17,8 @@ class QUnitTestDriver {
     }
 
 
-    public static void run(String testRelativePath) {
-        QUnitTestDriver runner = new QUnitTestDriver(testRelativePath)
+    public static void run(String testRelativePath, Configuration... configs) {
+        QUnitTestDriver runner = new QUnitTestDriver(testRelativePath, configs)
         try {
             runner.getTestPage().assertTestsPass()
         } finally {
@@ -34,13 +34,5 @@ class QUnitTestDriver {
     public void stopServer() {
         server.stop()
     }
-
-    public JettyServer getServer() {
-        return server
-    }
-	
-	protected setPortRange(Integer[] range){
-		portRange = range
-	}
 
 }
