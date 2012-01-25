@@ -47,7 +47,7 @@ public class JettyServer {
         server.stop()
     }
 
-    private void join() throws InterruptedException {
+    public void join() throws InterruptedException {
         server.join()
     }
 	
