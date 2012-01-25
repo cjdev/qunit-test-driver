@@ -8,7 +8,7 @@ import com.googlecode.qunitTestDriver.QUnitTestDriver;
  */
 class JoinToServer implements Configuration{
 	void configure(QUnitTestDriver runner){
-		runner.joinToServer(true)
+		runner.setJoinToServer(true)
 	}
 
 }

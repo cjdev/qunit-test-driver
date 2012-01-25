@@ -1,5 +1,6 @@
 package com.googlecode.qunitTestDriver
 
+import com.googlecode.qunitTestDriver.config.JoinToServer;
 import com.googlecode.qunitTestDriver.config.PortRange
 import org.junit.Test
 import static org.junit.Assert.assertEquals
