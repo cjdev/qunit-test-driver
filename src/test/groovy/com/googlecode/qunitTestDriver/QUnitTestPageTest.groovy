@@ -1,5 +1,6 @@
 package com.googlecode.qunitTestDriver
 
+import com.googlecode.qunitTestDriver.config.PortRange
 import org.junit.Test
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
@@ -47,4 +48,10 @@ class QUnitTestPageTest {
         }
         assertTrue("qUnit should have reported back no tests.", exception)       
     }
+	
+	@Test
+	void canConfigurePortRange(){
+		QUnitJettyTestRunner runner = new QUnitJettyTestRunner(testPageUrl, new PortRange(9876))
+		assertEquals(9876, runner.getServer().getPort())
+	}
 }
