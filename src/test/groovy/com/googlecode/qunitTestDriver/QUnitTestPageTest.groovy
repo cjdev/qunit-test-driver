@@ -13,7 +13,7 @@ class QUnitTestPageTest {
     void pageErrorsAreThrownProperly(){
         boolean exception = false
         try{
-            QUnitJettyTestRunner.run(testPageUrl)
+            QUnitTestDriver.run(testPageUrl)
         }catch(AssertionError e){
             assertTrue(e.toString().contains("This is a qunit failure"))
             assertTrue(e.toString().contains("This is another qunit failure"))
@@ -24,7 +24,7 @@ class QUnitTestPageTest {
     
     @Test 
     void twoTestsPassAndTwoTestsFail(){
-        QUnitJettyTestRunner runner = new QUnitJettyTestRunner(testPageUrl)
+        QUnitTestDriver runner = new QUnitTestDriver(testPageUrl)
         QUnitTestPage page = runner.getTestPage()
         assertEquals(2,page.passed())
         assertEquals(2,page.failed())
@@ -34,7 +34,7 @@ class QUnitTestPageTest {
     @Test
     void allTestsShouldPass(){
         String noTestPageUrl="src/test/resources/QUnitTestPageWithNoTests.html"
-        QUnitJettyTestRunner runner = new QUnitJettyTestRunner(noTestPageUrl)
+        QUnitTestDriver runner = new QUnitTestDriver(noTestPageUrl)
         QUnitTestPage page = runner.getTestPage()
         assertEquals(0,page.passed())
         assertEquals(0,page.failed())
@@ -51,7 +51,7 @@ class QUnitTestPageTest {
 	
 	@Test
 	void canConfigurePortRange(){
-		QUnitJettyTestRunner runner = new QUnitJettyTestRunner(testPageUrl, new PortRange(9876))
+		QUnitTestDriver runner = new QUnitTestDriver(testPageUrl, new PortRange(9876))
 		assertEquals(9876, runner.getServer().getPort())
 	}
 }

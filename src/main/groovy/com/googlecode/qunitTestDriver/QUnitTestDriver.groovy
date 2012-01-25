@@ -2,13 +2,13 @@ package com.googlecode.qunitTestDriver
 
 import com.googlecode.qunitTestDriver.config.Configuration
 
-class QUnitJettyTestRunner {
+class QUnitTestDriver {
     private final JettyServer server
     private static String DEFAULT_SERVER_ROOT = "/"
     private final String testRelativePath
 	private Integer[] portRange = [8098, 8198, 8298, 8398, 8498, 8598, 8698, 8798]
 
-    public QUnitJettyTestRunner(String testRelativePath, Configuration... configs) {
+    public QUnitTestDriver(String testRelativePath, Configuration... configs) {
 		for(Configuration config: configs){
 			config.configure(this)
 		}
@@ -18,7 +18,7 @@ class QUnitJettyTestRunner {
 
 
     public static void run(String testRelativePath) {
-        QUnitJettyTestRunner runner = new QUnitJettyTestRunner(testRelativePath)
+        QUnitTestDriver runner = new QUnitTestDriver(testRelativePath)
         try {
             runner.getTestPage().assertTestsPass()
         } finally {

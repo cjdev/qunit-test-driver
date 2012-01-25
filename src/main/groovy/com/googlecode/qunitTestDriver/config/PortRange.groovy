@@ -1,6 +1,6 @@
 package com.googlecode.qunitTestDriver.config
 
-import com.googlecode.qunitTestDriver.QUnitJettyTestRunner;
+import com.googlecode.qunitTestDriver.QUnitTestDriver;
 
 
 class PortRange implements Configuration{
@@ -8,7 +8,7 @@ class PortRange implements Configuration{
 	public PortRange(Integer... ports){
 		this.ports = ports;
 	}
-	void configure(QUnitJettyTestRunner runner){
+	void configure(QUnitTestDriver runner){
 		runner.setPortRange(ports)
 	}
 
