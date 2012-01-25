@@ -28,7 +28,7 @@ public class QUnitTestPage {
             nodes.each{node->
                 brokenTests+=node.asText()+"\n"
             }
-            throw new AssertionError(brokenTests)
+            throw new AssertionError(brokenTests+"\n\n\n"+driver.getPage().asText())
         }
         
         if(passed()<=0){

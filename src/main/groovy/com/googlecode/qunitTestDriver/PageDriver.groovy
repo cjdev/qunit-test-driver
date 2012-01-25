@@ -18,7 +18,7 @@ class PageDriver {
 	
 	
 	public PageDriver(String url) {
-		webClient = new WebClient(BrowserVersion.FIREFOX_3)
+		webClient = new WebClient(BrowserVersion.FIREFOX_3_6)
 		webClient.setUseInsecureSSL(true)
 		navigateTo(url)
 	}
@@ -55,6 +55,10 @@ class PageDriver {
 	
 	public List<DomNode> findElementsByXPath(String xPath) {
 		return (List<DomNode>) page.getByXPath(xPath)
+	}
+	
+	public HtmlPage getPage(){
+		return page
 	}
 
 }
