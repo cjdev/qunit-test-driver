@@ -10,5 +10,4 @@ class JoinToServer implements Configuration{
 	void configure(QUnitTestDriver runner){
 		runner.setJoinToServer(true)
 	}
-
 }
