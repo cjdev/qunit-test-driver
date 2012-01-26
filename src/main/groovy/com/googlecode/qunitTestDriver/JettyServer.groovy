@@ -48,6 +48,7 @@ public class JettyServer {
     }
 
     public void join() throws InterruptedException {
+		println("Joining to server.  You have to kill me to stop me now!");
         server.join()
     }
 	
