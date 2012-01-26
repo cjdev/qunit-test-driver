@@ -1,7 +1,7 @@
 package com.googlecode.qunitTestDriver
 
 import com.googlecode.qunitTestDriver.config.JoinToServer;
-import com.googlecode.qunitTestDriver.config.PortRange
+import com.googlecode.qunitTestDriver.config.PortSet
 import org.junit.Test
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
@@ -52,7 +52,7 @@ class QUnitTestDriverTest {
 	
 	@Test
 	void canConfigurePortRange(){
-		QUnitTestDriver runner = new QUnitTestDriver(testPageUrl, new PortRange(9876))
+		QUnitTestDriver runner = new QUnitTestDriver(testPageUrl, new PortSet(9876))
 		assertEquals(9876, runner.getServer().getPort())
 	}
 }

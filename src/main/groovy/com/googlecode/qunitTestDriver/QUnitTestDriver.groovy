@@ -7,14 +7,14 @@ class QUnitTestDriver {
     final String testPath
 	String serverRoot = "/"
     Boolean joinToServer=false
-	Integer[] portRange = [8098, 8198, 8298, 8398, 8498, 8598, 8695, 8796] //Psuedorandom Assortment Of Ports
+	Integer[] portSet = [8098, 8198, 8298, 8398, 8498, 8598, 8695, 8796] //Psuedorandom Assortment Of Ports
 
     public QUnitTestDriver(String testRelativePath, Configuration... configs) {
 		testPath = testRelativePath
 		for(Configuration config: configs){
 			config.configure(this)
 		}
-        server = new JettyServer("./", portRange)
+        server = new JettyServer("./", portSet)
 		if (joinToServer) server.join()
         
     }

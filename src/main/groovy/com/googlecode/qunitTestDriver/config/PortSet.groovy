@@ -7,13 +7,13 @@ import com.googlecode.qunitTestDriver.QUnitTestDriver;
  * The ports are tried one-by-one until one of them works.
  * This is nice for an environment where tests may be running in parallel on single machine.
  */
-class PortRange implements Configuration{
+class PortSet implements Configuration{
 	Integer[] ports;
-	public PortRange(Integer... ports){
+	public PortSet(Integer... ports){
 		this.ports = ports;
 	}
 	void configure(QUnitTestDriver runner){
-		runner.setPortRange(ports)
+		runner.setPortSet(ports)
 	}
 
 }
