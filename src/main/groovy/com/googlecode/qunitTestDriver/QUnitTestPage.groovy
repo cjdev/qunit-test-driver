@@ -21,14 +21,30 @@ public class QUnitTestPage {
     }
 
     public void assertTestsPass(){
+
         driver.shouldContainText("Tests completed in")
+
         if (failed() > 0){
-            List<DomNode> nodes = driver.findElementsByXPath("//li[contains(@class, 'fail')]//li[contains(@class, 'fail')]")
-            String brokenTests=""
-            nodes.each{node->
-                brokenTests+=node.asText()+"\n"
+
+            def numFailedAssertions = 0
+            def brokenTests = ""
+            def failedTestNameNodes = driver.findElementsByXPath("//ol[@id='qunit-tests']//li[@class='fail' and contains(@id,'test-output')]")
+
+            failedTestNameNodes.each { testNameNode -> 
+
+                def testName = testNameNode.getFirstByXPath(".//*[@class='test-name']").textContent
+
+                brokenTests += "\n\nTest Name: ${testName}\n\n"
+
+                def failedAssertionNodes = testNameNode.getByXPath(".//li[@class='fail']")
+
+                failedAssertionNodes.each { failure -> 
+                    numFailedAssertions++
+                    brokenTests += "\tFailed Assertion: ${failure.asText()}\n" 
+                }
             }
-            throw new AssertionError(brokenTests+"\n\n\n"+driver.getPage().asText())
+
+            throw new AssertionError("${numFailedAssertions} assertions failed. ${brokenTests}\n\n\n${driver.getPage().asText()}")
         }
         
         if(passed()<=0){
