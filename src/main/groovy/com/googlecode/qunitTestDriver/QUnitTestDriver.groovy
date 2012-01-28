@@ -5,21 +5,24 @@ import com.googlecode.qunitTestDriver.config.Configuration
 class QUnitTestDriver {
     final JettyServer server
     final String testPath
-	String serverRoot = "/"
+	String serverRoot = "./"
     Boolean joinToServer=false
 	Integer[] portSet = [8098, 8198, 8298, 8398, 8498, 8598, 8695, 8796] //Psuedorandom Assortment Of Ports
 
     public QUnitTestDriver(String testRelativePath, Configuration... configs) {
 		testPath = testRelativePath
+
 		for(Configuration config: configs){
 			config.configure(this)
 		}
-        server = new JettyServer("./", portSet)
+
+        server = new JettyServer(serverRoot, portSet)
+
 		if (joinToServer) server.join()
-        
     }
 
     public static void run(String testRelativePath, Configuration... configs) {
+
         QUnitTestDriver runner = new QUnitTestDriver(testRelativePath, configs)
         try {
             runner.getTestPage().assertTestsPass()

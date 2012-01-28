@@ -9,7 +9,7 @@ import com.googlecode.qunitTestDriver.QUnitTestDriver;
  */
 class RandomPortSet implements Configuration{
 
-    def ports = [];
+    def ports = []
     
     public RandomPortSet(size=100, minPort=8000, maxPort=9000){
 
@@ -22,7 +22,7 @@ class RandomPortSet implements Configuration{
     }
 
     void configure(QUnitTestDriver runner){
-        runner.setPortSet(ports.toArray())
+        runner.setPortSet(ports.toArray(new Integer[0]))
     }
 
 }

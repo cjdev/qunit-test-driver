@@ -11,7 +11,7 @@ class ServerRoot implements Configuration{
 		this.root = root;
 	}
 	void configure(QUnitTestDriver runner){
-		runner.serverRoot(root)
+		runner.serverRoot = root;
 	}
 
 }
