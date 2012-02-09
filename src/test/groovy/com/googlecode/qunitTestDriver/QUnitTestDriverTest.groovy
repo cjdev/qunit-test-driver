@@ -2,6 +2,7 @@ package com.googlecode.qunitTestDriver
 
 import com.googlecode.qunitTestDriver.config.JoinToServer;
 import com.googlecode.qunitTestDriver.config.PortSet
+import com.googlecode.qunitTestDriver.config.RandomPortSet
 import org.junit.Test
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
@@ -49,10 +50,16 @@ class QUnitTestDriverTest {
         }
         assertTrue("qUnit should have reported back no tests.", exception)       
     }
-	
-	@Test
-	void canConfigurePortRange(){
-		QUnitTestDriver runner = new QUnitTestDriver(testPageUrl, new PortSet(9876))
-		assertEquals(9876, runner.getServer().getPort())
-	}
+    
+    @Test
+    void canConfigurePortRange(){
+        QUnitTestDriver runner = new QUnitTestDriver(testPageUrl, new PortSet(9876))
+        assertEquals(9876, runner.getServer().getPort())
+    }
+
+    @Test
+    void canConfigurePortRangeWithRandomPortSet(){
+        QUnitTestDriver runner = new QUnitTestDriver(testPageUrl, new RandomPortSet())
+        assertEquals(100, runner.portSet.size())
+    }
 }
