@@ -9,14 +9,14 @@ import com.googlecode.qunitTestDriver.QUnitTestDriver;
  */
 class RandomPortSet implements Configuration{
 
-    def ports = []
+    def ports = [] as Set
     
     public RandomPortSet(size=100, minPort=8000, maxPort=9000){
 
         def r = new Random();
         def range = maxPort - minPort;
         
-        size.times {
+        while (ports.size() < size) {
             ports << (minPort + r.nextInt(range))
         }
     }
