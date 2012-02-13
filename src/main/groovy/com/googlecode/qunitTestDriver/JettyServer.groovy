@@ -79,18 +79,14 @@ public class JettyServer {
     }
 
     static JettyServer createForMain(String[] commandLineArgs) {
-        List<String> args = []
-        if (commandLineArgs) {
-            args = commandLineArgs[0].split(" ")
-        }
-        if (args.size() == 0) {
+        if (!commandLineArgs) {
             return new JettyServer(DEFAULT_SERVER_ROOT, DEFAULT_PORT)
         }
 
-        def port = Integer.parseInt(args[0])
+        def port = Integer.parseInt(commandLineArgs[0])
         def serverRoot = DEFAULT_SERVER_ROOT
-        if (args.size() == 2) {
-            serverRoot = args[1]
+        if (commandLineArgs.size() == 2) {
+            serverRoot = commandLineArgs[1]
         }
 
         return new JettyServer(serverRoot, port)

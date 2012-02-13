@@ -31,7 +31,7 @@ class JettyServerTest {
 
 	@Test
 	void canRunMainWithUserInput(){
-		def server = JettyServer.createForMain("9091 /usr").start();
+		def server = JettyServer.createForMain("9091 /usr".split(" ")).start();
         assertEquals(9091, server.getPort())
         assertEquals("/usr", server.getRoot())
     }
