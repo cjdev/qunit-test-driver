@@ -16,7 +16,7 @@ class QUnitTestDriver {
 			config.configure(this)
 		}
 
-        server = new JettyServer(serverRoot, portSet)
+        server = new JettyServer(serverRoot, portSet).start()
 
 		if (joinToServer) server.join()
     }
