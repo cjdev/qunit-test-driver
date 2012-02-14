@@ -5,6 +5,7 @@ import com.googlecode.qunitTestDriver.config.Configuration
 class QUnitTestDriver {
     final JettyServer server
     final String testPath
+    Integer timeout = QUnitTestPage.DEFAULT_TIMEOUT
 	String serverRoot = "./"
     Boolean joinToServer=false
 	Integer[] portSet = [8098, 8198, 8298, 8398, 8498, 8598, 8695, 8796] //Psuedorandom Assortment Of Ports
@@ -33,7 +34,7 @@ class QUnitTestDriver {
     }
     
     protected QUnitTestPage getTestPage() {
-        return new QUnitTestPage(server.getPort(), testPath)
+        return new QUnitTestPage(server.getPort(), testPath, timeout)
     }
 
     public void stopServer() {

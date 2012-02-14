@@ -1,14 +1,10 @@
 package com.googlecode.qunitTestDriver
-import static org.junit.Assert.*
-
-import java.util.List;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.gargoylesoftware.htmlunit.WebClient
-import com.gargoylesoftware.htmlunit.html.DomNode;
+import com.gargoylesoftware.htmlunit.html.DomNode
 import com.gargoylesoftware.htmlunit.html.HtmlPage
-
-
+import static org.junit.Assert.assertTrue
 
 class PageDriver {
 	
@@ -33,7 +29,7 @@ class PageDriver {
 		return this;
 	}
 	
-	public PageDriver waitForTextToBePresent(String text, Integer timeout=20000){
+	public PageDriver waitForTextToBePresent(String text, Integer timeout){
 		String potentialError = "'"+text+"' didn't show up in "+timeout+" milliseconds."
 		int millisToWait = 100
 		for(int t=timeout; t>0; t+=-millisToWait){
@@ -41,7 +37,6 @@ class PageDriver {
 				shouldContainText(text)
 				return;
 			}catch(Throwable th){}
-			System.out.println("Waiting For Javascript..."+t)
 			Thread.sleep(millisToWait)
 		}
 		println(page.asText())

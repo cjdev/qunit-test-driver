@@ -1,23 +1,27 @@
 package com.googlecode.qunitTestDriver
 
-import com.gargoylesoftware.htmlunit.html.DomNode
-
 public class QUnitTestPage {
-	PageDriver driver;
 
-    public QUnitTestPage(URL url){
+    static final DEFAULT_TIMEOUT = 5000
+
+	PageDriver driver;
+    Integer timeout;
+
+    public QUnitTestPage(URL url, timeout=DEFAULT_TIMEOUT){
         driver = new PageDriver(url.toString())
         driver.waitForAjax()
+        this.timeout = timeout
         
         waitForQunitTests()
     }
 
-    public QUnitTestPage(int localPort, String relativePathOfTest){
-        this("http://localhost:$localPort/$relativePathOfTest".toURL())
+    public QUnitTestPage(int localPort, String relativePathOfTest, Integer testTimeout){
+        this("http://localhost:$localPort/$relativePathOfTest".toURL(), testTimeout)
     }
-    
+
     void waitForQunitTests() {
-        driver.waitForTextToBePresent("Tests completed in")
+        System.out.println("Test timeout is $timeout milliseconds")
+        driver.waitForTextToBePresent("Tests completed in", timeout)
     }
 
     public void assertTestsPass(){

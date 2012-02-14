@@ -1,13 +1,12 @@
 package com.googlecode.qunitTestDriver
 
-import com.googlecode.qunitTestDriver.config.JoinToServer;
 import com.googlecode.qunitTestDriver.config.PortSet
 import com.googlecode.qunitTestDriver.config.RandomPortSet
 import com.googlecode.qunitTestDriver.config.ServerRoot
+import com.googlecode.qunitTestDriver.config.TestTimeout
 import org.junit.Test
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
-
 
 class QUnitTestDriverTest {
     final String testPageUrl="src/test/resources/QUnitTestPageTest.html"
@@ -86,5 +85,12 @@ class QUnitTestDriverTest {
         def newRoot = "/new/root"
         QUnitTestDriver runner = new QUnitTestDriver(testPageUrl, new ServerRoot(newRoot))
         assertEquals(newRoot, runner.serverRoot)
+    }
+
+    @Test void canConfigureWithTimeout() {
+        def timeout = 30000
+        QUnitTestDriver runner = new QUnitTestDriver(testPageUrl, new TestTimeout(timeout))
+        assertEquals(timeout, runner.timeout)
+        assertEquals(timeout, runner.getTestPage().timeout)
     }
 }
