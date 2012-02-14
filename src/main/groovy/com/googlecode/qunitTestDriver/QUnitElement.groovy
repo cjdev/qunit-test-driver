@@ -5,11 +5,11 @@ import static org.junit.Assert.*
 import com.gargoylesoftware.htmlunit.html.DomNode
 import com.gargoylesoftware.htmlunit.html.HtmlElement
 
-class CJElement {
+class QUnitElement {
     private HtmlElement element
     private final PageDriver driver
 
-    CJElement(PageDriver driver) {
+    QUnitElement(PageDriver driver) {
         this.driver = driver
     }
 	

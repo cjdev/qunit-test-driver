@@ -53,11 +53,11 @@ public class QUnitTestPage {
     }
     
     Integer failed(){
-        def failed = new CJElement(driver).withClass("failed")
+        def failed = new QUnitElement(driver).withClass("failed")
         Integer.parseInt(failed.asText())
     }
     
     Integer passed(){
-        Integer.parseInt(new CJElement(driver).withClass("passed").asText())
+        Integer.parseInt(new QUnitElement(driver).withClass("passed").asText())
     }
 }
