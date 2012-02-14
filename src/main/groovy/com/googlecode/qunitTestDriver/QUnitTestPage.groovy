@@ -28,11 +28,11 @@ public class QUnitTestPage {
 
             def numFailedAssertions = 0
             def brokenTests = ""
-            def failedTestNameNodes = driver.findElementsByXPath("//ol[@id='qunit-tests']//li[@class='fail' and contains(@id,'test-output')]")
+            def failedTestNameNodes = driver.findElementsByXPath("//ol[@id='qunit-tests']//li[@class='fail' and contains(@id,'qunit-output')]")
 
             failedTestNameNodes.each { testNameNode -> 
 
-                def testName = testNameNode.getFirstByXPath(".//*[@class='test-name']").textContent
+                def testName = testNameNode.getFirstByXPath(".//*[@class='qunit-name']").textContent
 
                 brokenTests += "\n\nTest Name: ${testName}\n\n"
 
