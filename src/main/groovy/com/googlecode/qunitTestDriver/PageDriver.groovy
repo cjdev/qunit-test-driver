@@ -39,7 +39,7 @@ class PageDriver {
 			}catch(Throwable th){}
 			Thread.sleep(millisToWait)
 		}
-		println(page.asText())
+		println ("<<< FAILURE: $potentialError")
 		throw new AssertionError(potentialError)
 	}
 	
