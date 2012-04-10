@@ -8,15 +8,13 @@ import com.gargoylesoftware.htmlunit.BrowserVersion
  * This is useful for debugging 404 errors in your tests.
  */
 class EmulateBrowsers implements Configuration{
-	BrowserVersion[] browsers;
+	BrowserVersion browser;
 	
-	public EmulateBrowsers(BrowserVersion[] browsers){
-		this.browsers=browsers;
+	public EmulateBrowsers(BrowserVersion browser){
+		this.browser=browser;
 	}
 	
 	void configure(QUnitTestDriver runner){
-		runner.setBrowsers(browsers)
+		runner.browserVersion(browser)
 	}
-	
-	
 }
