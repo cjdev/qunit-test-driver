@@ -23,7 +23,6 @@ public class QUnitTestPage {
     }
 
     void waitForQunitTests() {
-        System.out.println("Test timeout is $timeout milliseconds")
         driver.waitForTextToBePresent("Tests completed in", timeout)
     }
 
