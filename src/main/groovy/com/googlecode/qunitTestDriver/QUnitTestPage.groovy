@@ -1,5 +1,8 @@
 package com.googlecode.qunitTestDriver
 
+import com.gargoylesoftware.htmlunit.BrowserVersion
+
+
 public class QUnitTestPage {
 
     static final DEFAULT_TIMEOUT = 5000
@@ -7,16 +10,16 @@ public class QUnitTestPage {
 	PageDriver driver;
     Integer timeout;
 
-    public QUnitTestPage(URL url, timeout=DEFAULT_TIMEOUT){
-        driver = new PageDriver(url.toString())
+    public QUnitTestPage(URL url, timeout=DEFAULT_TIMEOUT, BrowserVersion browserVersion){
+        driver = new PageDriver(url.toString(), browserVersion)
         driver.waitForAjax()
         this.timeout = timeout
         
         waitForQunitTests()
     }
 
-    public QUnitTestPage(int localPort, String relativePathOfTest, Integer testTimeout){
-        this("http://localhost:$localPort/$relativePathOfTest".toURL(), testTimeout)
+    public QUnitTestPage(int localPort, String relativePathOfTest, Integer testTimeout, BrowserVersion browserVersion){
+        this("http://localhost:$localPort/$relativePathOfTest".toURL(), testTimeout, browserVersion)
     }
 
     void waitForQunitTests() {

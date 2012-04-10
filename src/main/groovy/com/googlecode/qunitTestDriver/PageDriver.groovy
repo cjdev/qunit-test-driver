@@ -13,8 +13,8 @@ class PageDriver {
 	
 	
 	
-	public PageDriver(String url) {
-		webClient = new WebClient(BrowserVersion.FIREFOX_3_6)
+	public PageDriver(String url, BrowserVersion browserVersion) {
+		webClient = new WebClient(browserVersion)
 		webClient.setUseInsecureSSL(true)
 		navigateTo(url)
 	}

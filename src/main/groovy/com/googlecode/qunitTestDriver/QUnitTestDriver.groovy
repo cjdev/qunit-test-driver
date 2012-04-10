@@ -1,6 +1,8 @@
 package com.googlecode.qunitTestDriver
 
 import com.googlecode.qunitTestDriver.config.Configuration
+import com.gargoylesoftware.htmlunit.BrowserVersion
+
 
 class QUnitTestDriver {
     final JettyServer server
@@ -9,6 +11,7 @@ class QUnitTestDriver {
 	String serverRoot = "./"
     Boolean joinToServer=false
 	Integer[] portSet = [8098, 8198, 8298, 8398, 8498, 8598, 8695, 8796] //Psuedorandom Assortment Of Ports
+	BrowserVersion browserVersion = BrowserVersion.FIREFOX_3_6
 
     public QUnitTestDriver(String testRelativePath, Configuration... configs) {
 		testPath = testRelativePath
@@ -34,7 +37,7 @@ class QUnitTestDriver {
     }
     
     protected QUnitTestPage getTestPage() {
-        return new QUnitTestPage(server.getPort(), testPath, timeout)
+        return new QUnitTestPage(server.getPort(), testPath, timeout, browserVersion)
     }
 
     public void stopServer() {
