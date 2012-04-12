@@ -11,8 +11,6 @@ class PageDriver {
 	private final WebClient webClient
 	private HtmlPage page
 	
-	
-	
 	public PageDriver(String url, BrowserVersion browserVersion) {
 		webClient = new WebClient(browserVersion)
 		webClient.setUseInsecureSSL(true)

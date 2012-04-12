@@ -15,6 +15,6 @@ class EmulateBrowser implements Configuration{
 	}
 	
 	void configure(QUnitTestDriver runner){
-		runner.browserVersion(browser)
+		runner.browserVersion = browser
 	}
 }
