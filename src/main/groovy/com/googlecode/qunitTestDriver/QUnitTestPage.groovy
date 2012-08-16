@@ -34,19 +34,19 @@ public class QUnitTestPage {
 
             def numFailedAssertions = 0
             def brokenTests = ""
-            def failedTestNameNodes = driver.findElementsByXPath("//ol[@id='qunit-tests']//li[@class='fail' and contains(@id,'qunit-output')]")
+			def failedTestNodes = driver.findElementsByXPath("//ol[@id='qunit-tests']//li[@class='fail' and contains(@id,'qunit-test-output')]")
 
-            failedTestNameNodes.each { testNameNode -> 
+            failedTestNodes.each { testNode -> 
+				def module = testNode.getFirstByXPath(".//*[@class='module-name']").asText()
+				def test = testNode.getFirstByXPath(".//*[@class='test-name']").asText()
 
-                def testName = testNameNode.getFirstByXPath(".//*[@class='qunit-name']").textContent
+                brokenTests += "\nTest Name: ${module}: ${test}"
 
-                brokenTests += "\n\nTest Name: ${testName}\n\n"
-
-                def failedAssertionNodes = testNameNode.getByXPath(".//li[@class='fail']")
+                def failedAssertionNodes = testNode.getByXPath(".//li[@class='fail']")
 
                 failedAssertionNodes.each { failure -> 
                     numFailedAssertions++
-                    brokenTests += "\tFailed Assertion: ${failure.asText()}\n" 
+                    brokenTests += "\n\tFailed Assertion: ${failure.asText()}" 
                 }
             }
 

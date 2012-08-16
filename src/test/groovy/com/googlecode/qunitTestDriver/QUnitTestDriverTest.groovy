@@ -41,7 +41,7 @@ class QUnitTestDriverTest {
             runner.getTestPage().assertTestsPass()
         } catch(AssertionError e) {
             assertTrue("assertions\n$e", e.toString().contains("2 assertions failed"))
-            assertTrue("test name\n$e", e.toString().contains("Test Name: a broken qunit"))
+            assertTrue("test name\n$e", e.toString().contains("Test Name: broken: a broken qunit"))
             assertTrue("expected failure with label\n$e", e.toString().contains("Failed Assertion: This is a qunit failure"))
             assertTrue("expected failure without label\n$e",e.toString().contains("Failed Assertion: This is another qunit failure"))
             exceptionCaught=true
