@@ -8,10 +8,12 @@ import com.googlecode.qunitTestDriver.QUnitTestDriver;
  * This is nice for an environment where tests may be running in parallel on single machine.
  */
 class PortSet implements Configuration{
-	Integer[] ports;
+	List<Integer> ports;
+	
 	public PortSet(Integer... ports){
 		this.ports = ports;
 	}
+	
 	void configure(QUnitTestDriver runner){
 		runner.setPortSet(ports)
 	}

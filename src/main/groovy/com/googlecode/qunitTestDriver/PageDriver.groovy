@@ -29,15 +29,21 @@ class PageDriver {
 	
 	public PageDriver waitForTextToBePresent(String text, Integer timeout){
 		String potentialError = "'"+text+"' didn't show up in "+timeout+" milliseconds."
+		
 		int millisToWait = 100
-		for(int t=timeout; t>0; t+=-millisToWait){
-			try{
+		
+		for(int t=timeout; t>0; t+=-millisToWait) {
+			try {
 				shouldContainText(text)
 				return;
-			}catch(Throwable th){}
+			} catch(Throwable th){}
+			
 			Thread.sleep(millisToWait)
 		}
-		throw new AssertionError(potentialError)
+		
+		//never saw the text!
+		println page.asText()
+		throw new AssertionError(potentialError + page.asText())
 	}
 	
 	PageDriver shouldContainText(String text) {

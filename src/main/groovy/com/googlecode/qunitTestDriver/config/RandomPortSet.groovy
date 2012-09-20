@@ -8,13 +8,11 @@ import com.googlecode.qunitTestDriver.QUnitTestDriver;
  * This is nice for an environment where tests may be running in parallel on single machine.
  */
 class RandomPortSet implements Configuration{
-
-    def ports = [] as Set
+    List<Integer> ports = []
     
-    public RandomPortSet(size=100, minPort=8000, maxPort=9000){
-
-        def r = new Random();
-        def range = maxPort - minPort;
+    public RandomPortSet(Integer size=100, Integer minPort=8000, Integer maxPort=9000){
+        Random r = new Random();
+        Integer range = maxPort - minPort;
         
         while (ports.size() < size) {
             ports << (minPort + r.nextInt(range))
@@ -22,7 +20,7 @@ class RandomPortSet implements Configuration{
     }
 
     void configure(QUnitTestDriver runner){
-        runner.setPortSet(ports.toArray(new Integer[0]))
+        runner.setPortSet(ports)
     }
 
 }

@@ -2,42 +2,50 @@ package com.googlecode.qunitTestDriver
 
 import com.googlecode.qunitTestDriver.config.PortSet
 import com.googlecode.qunitTestDriver.config.RandomPortSet
-import com.googlecode.qunitTestDriver.config.ServerRoot
+import com.googlecode.qunitTestDriver.config.PathMapping
 import com.googlecode.qunitTestDriver.config.TestTimeout
+
+import org.junit.After;
 import org.junit.Test
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 
 class QUnitTestDriverTest {
-    final String testPageUrl="src/test/resources/QUnitTestPageTest.html"
+    private final String testPageUrl="src/test/resources/QUnitTestPageTest.html"
+	private QUnitTestDriver runner
     
     @Test
     void pageErrorsAreThrownProperly(){
-        boolean exception = false
-        try{
+        Boolean exception = false
+		
+        try {
             QUnitTestDriver.run(testPageUrl)
-        }catch(AssertionError e){
+        } catch(AssertionError e){
             assertTrue(e.toString().contains("This is a qunit failure"))
             assertTrue(e.toString().contains("This is another qunit failure"))
             exception=true
         }
+		
         assertTrue("qUnit should have reported back two errors.", exception)
     }
     
     @Test 
     void twoTestsPassAndTwoTestsFail(){
-        QUnitTestDriver runner = new QUnitTestDriver(testPageUrl)
+        runner = new QUnitTestDriver(testPageUrl)
         QUnitTestPage page = runner.getTestPage()
+		
         assertEquals(2,page.passed())
         assertEquals(2,page.failed())
+		
         runner.getServer().stop()
     }
 
     @Test 
     void failuresContainTestNameAndFailedAssertion(){
-        def exceptionCaught = false
-        QUnitTestDriver runner = new QUnitTestDriver(testPageUrl)
-        try{
+        Boolean exceptionCaught = false
+        runner = new QUnitTestDriver(testPageUrl)
+		
+        try {
             runner.getTestPage().assertTestsPass()
         } catch(AssertionError e) {
             assertTrue("assertions\n$e", e.toString().contains("2 assertions failed"))
@@ -46,6 +54,7 @@ class QUnitTestDriverTest {
             assertTrue("expected failure without label\n$e",e.toString().contains("Failed Assertion: This is another qunit failure"))
             exceptionCaught=true
         }
+		
         runner.getServer().stop()
         assertTrue("should have thrown AssertionError after tests failed", exceptionCaught)       
     }
@@ -53,44 +62,58 @@ class QUnitTestDriverTest {
     @Test
     void allTestsShouldPass(){
         String noTestPageUrl="src/test/resources/QUnitTestPageWithNoTests.html"
-        QUnitTestDriver runner = new QUnitTestDriver(noTestPageUrl)
+		Boolean exception = false
+        runner = new QUnitTestDriver(noTestPageUrl)
         QUnitTestPage page = runner.getTestPage()
+		
         assertEquals(0,page.passed())
         assertEquals(0,page.failed())
-        runner.getServer().stop()
-        Boolean exception=false
-        try{
+		
+        try {
             page.assertTestsPass()
-        }catch(AssertionError e){
+        } catch(AssertionError e){
             assertTrue(e.toString().contains("no tests found"))
-            exception=true
+            exception = true
         }
+		
         assertTrue("qUnit should have reported back no tests.", exception)       
     }
     
     @Test
     void canConfigurePortRange(){
-        QUnitTestDriver runner = new QUnitTestDriver(testPageUrl, new PortSet(9876))
+        runner = new QUnitTestDriver(testPageUrl, new PortSet(9876))
+		
         assertEquals(9876, runner.getServer().getPort())
     }
 
     @Test
     void canConfigurePortRangeWithRandomPortSet(){
-        QUnitTestDriver runner = new QUnitTestDriver(testPageUrl, new RandomPortSet())
+        runner = new QUnitTestDriver(testPageUrl, new RandomPortSet())
+		
         assertEquals(100, runner.portSet.size())
     }
 
     @Test
-    void canConfigureServerRoot(){
-        def newRoot = "/new/root"
-        QUnitTestDriver runner = new QUnitTestDriver(testPageUrl, new ServerRoot(newRoot))
-        assertEquals(newRoot, runner.serverRoot)
+    void canConfigureServerRoots(){
+        String newRootOne = "/new/root/one"
+		String newRootTwo = "/new/root/two"
+		
+        runner = new QUnitTestDriver(testPageUrl, new PathMapping("/one", newRootOne), new PathMapping("/one", newRootTwo))
+        assertEquals(["/":["./"], "/one":[newRootOne, newRootTwo]], runner.pathMappings)
     }
 
-    @Test void canConfigureWithTimeout() {
-        def timeout = 30000
-        QUnitTestDriver runner = new QUnitTestDriver(testPageUrl, new TestTimeout(timeout))
+    @Test
+	void canConfigureWithTimeout() {
+        Integer timeout = 30000
+        runner = new QUnitTestDriver(testPageUrl, new TestTimeout(timeout))
+		
         assertEquals(timeout, runner.timeout)
         assertEquals(timeout, runner.getTestPage().timeout)
     }
+	
+	@After
+	void teardown() {
+		if(runner != null)
+			runner.getServer().stop()
+	}
 }

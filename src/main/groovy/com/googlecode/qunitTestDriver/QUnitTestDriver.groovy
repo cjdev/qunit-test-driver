@@ -8,26 +8,26 @@ class QUnitTestDriver {
     final JettyServer server
     final String testPath
     Integer timeout = QUnitTestPage.DEFAULT_TIMEOUT
-	String serverRoot = "./"
+	Map<String,List<String>> pathMappings = ["/":["./"]]
     Boolean joinToServer=false
-	Integer[] portSet = [8098, 8198, 8298, 8398, 8498, 8598, 8695, 8796] //Psuedorandom Assortment Of Ports
+	List<Integer> portSet = [8098, 8198, 8298, 8398, 8498, 8598, 8695, 8796] //Psuedorandom Assortment Of Ports
 	BrowserVersion browserVersion = BrowserVersion.FIREFOX_3_6
 
     public QUnitTestDriver(String testRelativePath, Configuration... configs) {
-		testPath = testRelativePath
+		this.testPath = testRelativePath
 
-		for(Configuration config: configs){
+		for(Configuration config: configs)
 			config.configure(this)
-		}
 
-        server = new JettyServer(serverRoot, portSet).start()
+        server = new JettyServer(pathMappings, portSet).start()
 
-		if (joinToServer) server.join()
+		if (joinToServer)
+			server.join()
     }
 
     public static void run(String testRelativePath, Configuration... configs) {
-
         QUnitTestDriver runner = new QUnitTestDriver(testRelativePath, configs)
+        
         try {
             runner.getTestPage().assertTestsPass()
         } finally {
@@ -43,5 +43,4 @@ class QUnitTestDriver {
     public void stopServer() {
         server.stop()
     }
-
 }
