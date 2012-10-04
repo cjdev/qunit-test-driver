@@ -34,7 +34,7 @@ class QUnitTestDriverTest {
         runner = new QUnitTestDriver(testPageUrl)
         QUnitTestPage page = runner.getTestPage()
 		
-        assertEquals(2,page.passed())
+        assertEquals(4,page.passed())
         assertEquals(2,page.failed())
 		
         runner.getServer().stop()
