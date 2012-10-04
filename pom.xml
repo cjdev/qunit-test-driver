@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode</groupId>
 	<artifactId>qunit-test-driver</artifactId>
-	<version>1.2.0</version>
+	<version>1.2.1</version>
     <name>QUnit Test Driver</name>
 
 	<build>
@@ -22,7 +22,9 @@
 				<executions>
 					<execution>
 						<goals>
+							<goal>generateStubs</goal>
 							<goal>compile</goal>
+							<goal>generateTestStubs</goal>
 							<goal>testCompile</goal>
 						</goals>
 					</execution>
@@ -33,7 +35,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
                     <excludes>
-                        <exclude>**/QUnitSuiteTestTest.*</exclude>
+                        <exclude>**/QUnitTestTest.*</exclude>
                     </excludes>
 				</configuration>
 			</plugin>

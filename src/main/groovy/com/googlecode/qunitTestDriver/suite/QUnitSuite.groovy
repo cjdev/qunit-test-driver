@@ -1,4 +1,4 @@
-package com.googlecode.qunitTestDriver
+package com.googlecode.qunitTestDriver.suite
 
 import org.junit.internal.runners.model.EachTestNotifier;
 import org.junit.runner.Description
@@ -8,9 +8,6 @@ import org.junit.runner.notification.RunNotifier
 import org.junit.runners.model.FrameworkMethod
 import org.junit.runners.model.TestClass
 
-import com.googlecode.qunitTestDriver.annotations.QUnitResults
-import com.googlecode.qunitTestDriver.annotations.QUnitTestCaseResult
-import com.googlecode.qunitTestDriver.annotations.QUnitTestResult
 
 
 class QUnitSuite extends Runner {
@@ -18,24 +15,14 @@ class QUnitSuite extends Runner {
 	private Description description
 	private List<QUnitTestResult> results
 
-	private static List<QUnitTestResult> getResultsFrom(TestClass testClass, FrameworkMethod method) {
-		return method.invokeExplosively(testClass.onlyConstructor.newInstance(), null)
-	}
-	
-	private static FrameworkMethod getResultsMethod(TestClass testClass) {
-		List<FrameworkMethod> methods = testClass.getAnnotatedMethods(QUnitResults.class)
-		
-		if (methods.size != 1)
-			throw new Exception("There must be exactly 1 results method on class " + testClass.getName());
-			
-		return methods.get(0)
+	private static List<QUnitTestResult> getResultsFrom(TestClass testClass) {
+		return testClass.onlyConstructor.newInstance().getQUnitTestResults()
 	}
 	
 	public QUnitSuite(Class<?> klass) {
 		this.testClass = new TestClass(klass)
-		FrameworkMethod method = getResultsMethod(testClass)
 		this.description = Description.createSuiteDescription(klass)
-		this.results = getResultsFrom(testClass, method)
+		this.results = getResultsFrom(testClass)
 		
 		for(QUnitTestResult result : results) {
 			description.addChild(result.desc)
@@ -49,8 +36,6 @@ class QUnitSuite extends Runner {
 
 	@Override
 	public void run(RunNotifier notifier) {
-//		EachTestNotifier testNotifier= new EachTestNotifier(notifier, getDescription());
-		
 		notifier.fireTestStarted(description)
 
 		for(QUnitTestResult result : results) {

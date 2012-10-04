@@ -1,7 +1,7 @@
 package com.googlecode.qunitTestDriver
 
-import com.googlecode.qunitTestDriver.config.Configuration
 import com.gargoylesoftware.htmlunit.BrowserVersion
+import com.googlecode.qunitTestDriver.config.Configuration
 
 
 class QUnitTestDriver {
@@ -24,6 +24,10 @@ class QUnitTestDriver {
 		if (joinToServer)
 			server.join()
     }
+	
+	public QUnitTestDriver(String testRelativePath, List<Configuration> configs) {
+		this(testRelativePath, configs.toArray())
+	}
 
     public static void run(String testRelativePath, Configuration... configs) {
         QUnitTestDriver runner = new QUnitTestDriver(testRelativePath, configs)
