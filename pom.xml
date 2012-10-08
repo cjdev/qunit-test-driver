@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.googlecode</groupId>
+	<groupId>com.cj.qunit-test-driver</groupId>
 	<artifactId>qunit-test-driver</artifactId>
-	<version>1.2.1</version>
+	<version>1.2.2</version>
     <name>QUnit Test Driver</name>
 
 	<build>
