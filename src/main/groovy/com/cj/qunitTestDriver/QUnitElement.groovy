@@ -1,4 +1,4 @@
-package com.googlecode.qunitTestDriver
+package com.cj.qunitTestDriver
 
 import static org.junit.Assert.*
 

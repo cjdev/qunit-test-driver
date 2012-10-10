@@ -1,8 +1,11 @@
-package com.googlecode.qunitTestDriver
+package com.cj.qunitTestDriver
 
 import static org.junit.Assert.assertTrue
 import static org.junit.Assert.assertFalse
 import org.junit.Test
+
+import com.cj.qunitTestDriver.JettyServer;
+
 import static org.junit.Assert.assertEquals
 
 class JettyServerTest {

@@ -1,6 +1,6 @@
-package com.googlecode.qunitTestDriver.config
+package com.cj.qunitTestDriver.config
 
-import com.googlecode.qunitTestDriver.QUnitTestDriver;
+import com.cj.qunitTestDriver.QUnitTestDriver;
 
 /**
  * This class allows you to set which ports are used in the internal Jetty server.

@@ -1,9 +1,11 @@
-package com.googlecode.qunitTestDriver
+package com.cj.qunitTestDriver
 
-import com.googlecode.qunitTestDriver.config.PortSet
-import com.googlecode.qunitTestDriver.config.RandomPortSet
-import com.googlecode.qunitTestDriver.config.PathMapping
-import com.googlecode.qunitTestDriver.config.TestTimeout
+import com.cj.qunitTestDriver.QUnitTestDriver;
+import com.cj.qunitTestDriver.QUnitTestPage;
+import com.cj.qunitTestDriver.config.PortSet
+import com.cj.qunitTestDriver.config.RandomPortSet
+import com.cj.qunitTestDriver.config.PathMapping
+import com.cj.qunitTestDriver.config.TestTimeout
 
 import org.junit.After;
 import org.junit.Test

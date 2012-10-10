@@ -1,6 +1,6 @@
-package com.googlecode.qunitTestDriver.config
+package com.cj.qunitTestDriver.config
 
-import com.googlecode.qunitTestDriver.QUnitTestDriver;
+import com.cj.qunitTestDriver.QUnitTestDriver;
 
 /**
  * Specifies the root of the server that Jetty will be given.

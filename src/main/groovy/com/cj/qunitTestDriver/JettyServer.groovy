@@ -1,4 +1,4 @@
-package com.googlecode.qunitTestDriver
+package com.cj.qunitTestDriver
 
 import java.util.Map.Entry
 import org.eclipse.jetty.server.Server

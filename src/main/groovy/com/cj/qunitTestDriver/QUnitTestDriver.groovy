@@ -1,7 +1,7 @@
-package com.googlecode.qunitTestDriver
+package com.cj.qunitTestDriver
 
 import com.gargoylesoftware.htmlunit.BrowserVersion
-import com.googlecode.qunitTestDriver.config.Configuration
+import com.cj.qunitTestDriver.config.Configuration
 
 
 class QUnitTestDriver {

@@ -1,8 +1,9 @@
-package com.googlecode.qunitTestDriver;
+package com.cj.qunitTestDriver;
 
 import java.util.List;
 
-import com.googlecode.qunitTestDriver.config.Configuration;
+import com.cj.qunitTestDriver.QUnitTest;
+import com.cj.qunitTestDriver.config.Configuration;
 
 public class QUnitTestTest extends QUnitTest {
 

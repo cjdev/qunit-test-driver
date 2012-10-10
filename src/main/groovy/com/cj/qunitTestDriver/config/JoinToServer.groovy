@@ -1,6 +1,6 @@
-package com.googlecode.qunitTestDriver.config
+package com.cj.qunitTestDriver.config
 
-import com.googlecode.qunitTestDriver.QUnitTestDriver;
+import com.cj.qunitTestDriver.QUnitTestDriver;
 
 /**
  * If passed in, will cause the test runner to STOP executing just after starting the jetty server.

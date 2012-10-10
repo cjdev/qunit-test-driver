@@ -1,4 +1,4 @@
-package com.googlecode.qunitTestDriver
+package com.cj.qunitTestDriver
 
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.gargoylesoftware.htmlunit.WebClient

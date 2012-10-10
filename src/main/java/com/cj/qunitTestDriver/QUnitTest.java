@@ -1,4 +1,4 @@
-package com.googlecode.qunitTestDriver;
+package com.cj.qunitTestDriver;
 
 import groovy.lang.GroovyObjectSupport;
 
@@ -10,9 +10,11 @@ import java.util.Map;
 
 import org.junit.runner.RunWith;
 
+import com.cj.qunitTestDriver.QUnitTestDriver;
+import com.cj.qunitTestDriver.QUnitTestPage;
+import com.cj.qunitTestDriver.config.Configuration;
+import com.cj.qunitTestDriver.suite.*;
 import com.gargoylesoftware.htmlunit.html.DomNode;
-import com.googlecode.qunitTestDriver.config.Configuration;
-import com.googlecode.qunitTestDriver.suite.*;
 
 @RunWith(QUnitSuite.class)
 public abstract class QUnitTest extends GroovyObjectSupport {

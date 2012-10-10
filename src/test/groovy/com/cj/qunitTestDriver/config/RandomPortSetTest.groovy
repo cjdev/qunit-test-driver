@@ -1,8 +1,10 @@
-package com.googlecode.qunitTestDriver.config
+package com.cj.qunitTestDriver.config
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 import org.junit.Test
+
+import com.cj.qunitTestDriver.config.RandomPortSet;
 
 class RandomPortSetTest {
 

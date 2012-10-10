@@ -1,4 +1,4 @@
-package com.googlecode.qunitTestDriver.suite
+package com.cj.qunitTestDriver.suite
 
 import org.junit.runner.Description;
 
