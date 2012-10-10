@@ -41,8 +41,12 @@ class QUnitTestDriver {
     }
     
     protected QUnitTestPage getTestPage() {
-        return new QUnitTestPage(server.getPort(), testPath, timeout, browserVersion)
+        return new QUnitTestPage(server.getPort(), testPath, timeout, browserVersion, true)
     }
+	
+	protected QUnitTestPage getTestPageImmediate() {
+		return new QUnitTestPage(server.getPort(), testPath, timeout, browserVersion, false)
+	}
 
     public void stopServer() {
         server.stop()

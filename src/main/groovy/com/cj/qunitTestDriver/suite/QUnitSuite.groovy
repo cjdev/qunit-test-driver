@@ -1,5 +1,7 @@
 package com.cj.qunitTestDriver.suite
 
+import java.util.List;
+
 import org.junit.internal.runners.model.EachTestNotifier;
 import org.junit.runner.Description
 import org.junit.runner.Runner
@@ -9,24 +11,20 @@ import org.junit.runners.model.FrameworkMethod
 import org.junit.runners.model.TestClass
 
 
-
 class QUnitSuite extends Runner {
 	private TestClass testClass
 	private Description description
-	private List<QUnitTestResult> results
+	private def testInstance
 
-	private static List<QUnitTestResult> getResultsFrom(TestClass testClass) {
-		return testClass.onlyConstructor.newInstance().getQUnitTestResults()
-	}
-	
 	public QUnitSuite(Class<?> klass) {
 		this.testClass = new TestClass(klass)
 		this.description = Description.createSuiteDescription(klass)
-		this.results = getResultsFrom(testClass)
 		
-		for(QUnitTestResult result : results) {
-			description.addChild(result.desc)
-		}
+		if(testClass.getJavaClass().getConstructors().length != 1 || testClass.getOnlyConstructor().getParameterTypes().length != 0)
+			throw new Exception("Test class should have exactly one public zero-argument constructor")
+		
+		this.testInstance = testClass.onlyConstructor.newInstance()
+		testInstance.addToDescription(description)
 	}
 
 	@Override
@@ -37,22 +35,7 @@ class QUnitSuite extends Runner {
 	@Override
 	public void run(RunNotifier notifier) {
 		notifier.fireTestStarted(description)
-
-		for(QUnitTestResult result : results) {
-			notifier.fireTestStarted(result.desc)
-
-			for(QUnitTestCaseResult c : result.cases) {
-				notifier.fireTestStarted(c.desc)
-				
-				if(c.error != null)
-					notifier.fireTestFailure(new Failure(c.desc, new AssertionError(c.error)))
-				
-				notifier.fireTestFinished(c.desc)
-			}
-
-			notifier.fireTestFinished(result.desc)
-		}
-
+		testInstance.run(notifier)
 		notifier.fireTestFinished(description)
 	}
 }

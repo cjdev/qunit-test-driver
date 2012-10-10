@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cj.qunit-test-driver</groupId>
 	<artifactId>qunit-test-driver</artifactId>
-	<version>1.2.2</version>
+	<version>1.2.3</version>
     <name>QUnit Test Driver</name>
 
 	<build>
