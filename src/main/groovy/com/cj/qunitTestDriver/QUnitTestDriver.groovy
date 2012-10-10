@@ -26,7 +26,8 @@ class QUnitTestDriver {
     }
 	
 	public QUnitTestDriver(String testRelativePath, List<Configuration> configs) {
-		this(testRelativePath, configs.toArray())
+		this(testRelativePath, configs.toArray(new Configuration[0]))
+		
 	}
 
     public static void run(String testRelativePath, Configuration... configs) {

@@ -19,31 +19,41 @@ import com.gargoylesoftware.htmlunit.html.DomNode;
 
 @RunWith(QUnitSuite.class)
 public abstract class QUnitTest extends GroovyObjectSupport {
+	private QUnitTestDriver driver;
+	private QUnitTestPage page;
 	private TheTestSuite suite;
+	private Integer timeout;
+	private Long startTime;
 	
 	public QUnitTest() {
-		suite = new TheTestSuite();
+		this.driver = new QUnitTestDriver(getTestPageUrl(), getConfigurationsNullSafe());
+		this.page = driver.getTestPageImmediate();
+		this.timeout = driver.getTimeout();
+		this.startTime = System.currentTimeMillis();
+		this.suite = new TheTestSuite(page);
 	}
 	
-	void addToDescription(Description description) {
+	public void run(RunNotifier notifier) throws InterruptedException {
+		try {
+			suite.run(notifier);
+		} finally {
+			driver.stopServer();
+		}
+	}
+	
+	public void addToDescription(Description description) {
 		suite.addToDescription(description);
 	}
 	
-	void run(RunNotifier notifier) throws InterruptedException {
-		suite.run(notifier);
+	private boolean notTimedOutYet() {
+		return (System.currentTimeMillis() - startTime) < timeout;
 	}
 	
 	class TheTestSuite {
 		Map<String, Module> modules;
-		QUnitTestDriver driver;
-		QUnitTestPage page;
-		Long startTime;
 		
-		TheTestSuite() {
+		TheTestSuite(QUnitTestPage page) {
 			this.modules = new HashMap<String, Module>();
-			this.driver = new QUnitTestDriver(getTestPageUrl(), getConfigurationsNullSafe());
-			this.page = driver.getTestPageImmediate();
-			this.startTime = System.currentTimeMillis();
 			
 			List<DomNode> testNodes = page.getDriver().findElementsByXPath("//ol[@id='qunit-tests']//li[contains(@id,'test-output')]");
 			if(testNodes.isEmpty())
@@ -78,10 +88,8 @@ public abstract class QUnitTest extends GroovyObjectSupport {
 			while(notifyTestsCompleted(notifier) && notTimedOutYet()) {
 				Thread.sleep(200);
 			}
-		}
-
-		private boolean notTimedOutYet() {
-			return (System.currentTimeMillis() - startTime) < driver.getTimeout();
+			
+			notifyTestsFailed(notifier);
 		}
 
 		boolean notifyTestsCompleted(RunNotifier notifier) {
@@ -90,6 +98,14 @@ public abstract class QUnitTest extends GroovyObjectSupport {
 					return true;
 			
 			return false;
+		}
+		
+		void notifyTestsFailed(RunNotifier notifier) {
+			for(Module module : modules.values())
+				if(module.isTimedOut(notifier)) {
+					notifier.fireTestFailure(new Failure(module.description, new AssertionError("TIMEDOUT!")));
+					notifier.fireTestFinished(module.description);
+				}
 		}
 	}
 	
@@ -106,7 +122,7 @@ public abstract class QUnitTest extends GroovyObjectSupport {
 			this.testCases = new ArrayList<TestCase>();
 		}
 
-		public boolean isRunning(RunNotifier notifier) {
+		boolean isRunning(RunNotifier notifier) {
 			for(TestCase t : testCases)
 				if(t.isRunning(notifier))
 					return true;
@@ -114,8 +130,21 @@ public abstract class QUnitTest extends GroovyObjectSupport {
 			notifier.fireTestFinished(description);
 			return false;
 		}
+		
+		boolean isTimedOut(RunNotifier notifier) {
+			Boolean foundTimedOut = false;
+			for(TestCase t : testCases) {
+				if(t.isRunning(notifier)) {
+					notifier.fireTestFailure(new Failure(t.description, new AssertionError("TIMEDOUT!")));
+					notifier.fireTestFinished(description);
+					foundTimedOut = true;
+				}
+			}
+			
+			return foundTimedOut;
+		}
 
-		public void addTestCase(TestCase testCase) {
+		void addTestCase(TestCase testCase) {
 			testCases.add(testCase);
 			description.addChild(testCase.description);
 		}
