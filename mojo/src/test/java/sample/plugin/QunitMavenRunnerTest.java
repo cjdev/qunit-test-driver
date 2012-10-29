@@ -1,7 +1,5 @@
 package sample.plugin;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,15 +10,44 @@ import junit.framework.Assert;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.junit.Test;
 
 public class QunitMavenRunnerTest {
-
+    
     @Test
-    public void findsFilesUnderTheSrcTestDirectory() throws Exception {
+    public void findsTestJsFilesUnderTheSrcTestDirectory() throws Exception {
+        // given
+        File projectDirectory = tempDirectory();
+        File srcMainHtmlDirectory = new File(projectDirectory, "src/test/whatever");
+        srcMainHtmlDirectory.mkdirs();
+        
+        FileUtils.writeStringToFile(new File(srcMainHtmlDirectory, "Whatever.qunit-test.js"), "module('mytests');test('mytest', function(){ok(true);});");
+        
+        QunitMavenRunner runner = new QunitMavenRunner();
+        FakeLog log = new FakeLog();
+        
+        // when
+        List<String> problems;
+        Exception t;
+        try {
+            problems = runner.run(projectDirectory, log);
+            t = null;
+        } catch (Exception e) {
+            t = e;
+            problems = Collections.emptyList();
+        }
+        
+        // then
+        System.out.println(srcMainHtmlDirectory.getAbsolutePath());
+        Assert.assertTrue("The plugin should not blow up", t == null);
+        Assert.assertEquals(0, problems.size());
+        Assert.assertEquals(1, log.pathsRun.size());
+        Assert.assertEquals("src/test/whatever/Whatever.qunit-test.js", log.pathsRun.get(0));
+    }
+    
+    
+    @Test
+    public void findsQunitHtmlFilesUnderTheSrcTestDirectory() throws Exception {
         // given
         File projectDirectory = tempDirectory();
         File srcMainHtmlDirectory = new File(projectDirectory, "src/test/whatever");
