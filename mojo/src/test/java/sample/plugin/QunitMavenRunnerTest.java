@@ -15,6 +15,37 @@ import org.junit.Test;
 public class QunitMavenRunnerTest {
     
     @Test
+    public void theRunnerProvidesRequireDotJs() throws Exception {
+        // given
+        File projectDirectory = tempDirectory();
+        File srcMainHtmlDirectory = new File(projectDirectory, "src/test/whatever");
+        srcMainHtmlDirectory.mkdirs();
+        
+        FileUtils.writeStringToFile(new File(srcMainHtmlDirectory, "Whatever.qunit-test.js"), "require([], function(){module('mytests');test('mytest', function(){ok(true);});})");
+        
+        QunitMavenRunner runner = new QunitMavenRunner();
+        FakeLog log = new FakeLog();
+        
+        // when
+        List<String> problems;
+        Exception t;
+        try {
+            problems = runner.run(projectDirectory, log);
+            t = null;
+        } catch (Exception e) {
+            t = e;
+            problems = Collections.emptyList();
+        }
+        
+        // then
+        System.out.println(srcMainHtmlDirectory.getAbsolutePath());
+        Assert.assertTrue("The plugin should not blow up", t == null);
+        Assert.assertEquals(0, problems.size());
+        Assert.assertEquals(1, log.pathsRun.size());
+        Assert.assertEquals("src/test/whatever/Whatever.qunit-test.js", log.pathsRun.get(0));
+    }
+    
+    @Test
     public void findsTestJsFilesUnderTheSrcTestDirectory() throws Exception {
         // given
         File projectDirectory = tempDirectory();
