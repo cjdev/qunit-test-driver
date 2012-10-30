@@ -23,7 +23,7 @@ public class QunitMavenRunnerTest {
         File srcMainHtmlDirectory = new File(projectDirectory, "src/test/whatever");
         srcMainHtmlDirectory.mkdirs();
         
-        FileUtils.writeStringToFile(new File(srcMainHtmlDirectory, "Whatever.qunit-test.js"), "require([], function(){module('mytests');test('mytest', function(){ok(true);});})");
+        FileUtils.writeStringToFile(new File(srcMainHtmlDirectory, "Whatever.qunit.js"), "require([], function(){module('mytests');test('mytest', function(){ok(true);});})");
         
         QunitMavenRunner runner = new QunitMavenRunner();
         FakeLog log = new FakeLog();
@@ -32,7 +32,7 @@ public class QunitMavenRunnerTest {
         List<String> problems;
         Exception t;
         try {
-            problems = runner.run(projectDirectory, log);
+            problems = runner.run(Collections.singletonList(projectDirectory), Collections.<File>emptyList(), log);
             t = null;
         } catch (Exception e) {
             t = e;
@@ -44,7 +44,7 @@ public class QunitMavenRunnerTest {
         Assert.assertTrue("The plugin should not blow up", t == null);
         Assert.assertEquals(0, problems.size());
         Assert.assertEquals(1, log.pathsRun.size());
-        Assert.assertEquals("src/test/whatever/Whatever.qunit-test.js", log.pathsRun.get(0));
+        Assert.assertEquals("src/test/whatever/Whatever.qunit.js", log.pathsRun.get(0));
     }
     
     @Test
@@ -54,7 +54,7 @@ public class QunitMavenRunnerTest {
         File srcMainHtmlDirectory = new File(projectDirectory, "src/test/whatever");
         srcMainHtmlDirectory.mkdirs();
         
-        FileUtils.writeStringToFile(new File(srcMainHtmlDirectory, "Whatever.qunit-test.js"), "module('mytests');test('mytest', function(){ok(true);});");
+        FileUtils.writeStringToFile(new File(srcMainHtmlDirectory, "Whatever.qunit.js"), "module('mytests');test('mytest', function(){ok(true);});");
         
         QunitMavenRunner runner = new QunitMavenRunner();
         FakeLog log = new FakeLog();
@@ -63,7 +63,7 @@ public class QunitMavenRunnerTest {
         List<String> problems;
         Exception t;
         try {
-            problems = runner.run(projectDirectory, log);
+            problems = runner.run(Collections.singletonList(projectDirectory), Collections.<File>emptyList(), log);
             t = null;
         } catch (Exception e) {
             t = e;
@@ -75,7 +75,7 @@ public class QunitMavenRunnerTest {
         Assert.assertTrue("The plugin should not blow up", t == null);
         Assert.assertEquals(0, problems.size());
         Assert.assertEquals(1, log.pathsRun.size());
-        Assert.assertEquals("src/test/whatever/Whatever.qunit-test.js", log.pathsRun.get(0));
+        Assert.assertEquals("src/test/whatever/Whatever.qunit.js", log.pathsRun.get(0));
     }
     
     
@@ -97,7 +97,7 @@ public class QunitMavenRunnerTest {
         List<String> problems;
         Exception t;
         try {
-            problems = runner.run(projectDirectory, log);
+            problems = runner.run(Collections.singletonList(projectDirectory), Collections.<File>emptyList(), log);
             t = null;
         } catch (Exception e) {
             t = e;
@@ -131,7 +131,7 @@ public class QunitMavenRunnerTest {
         List<String> problems;
         Throwable t;
         try {
-            problems = runner.run(projectDirectory, log);
+            problems = runner.run(Collections.singletonList(projectDirectory), Collections.<File>emptyList(), log);
             t = null;
         } catch (Throwable e) {
             t = e;

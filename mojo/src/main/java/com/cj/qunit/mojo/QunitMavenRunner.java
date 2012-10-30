@@ -15,23 +15,25 @@ public class QunitMavenRunner {
         void runningTest(String relativePath);
     }
     
-    public List<String> run(final File projectDirectory, final Listener log) {
-        final WebServerUtils.JettyPlusPort jetty = WebServerUtils.launchHttpServer(projectDirectory);
+    public List<String> run(final List<File> codePaths, final List<File> extraPathsToServe, final Listener log) {
+        final WebServerUtils.JettyPlusPort jetty = WebServerUtils.launchHttpServer(codePaths, extraPathsToServe);
 
         try{
 
             final List<String> problems = new ArrayList<String>(); 
-            for(QunitTestLocator.LocatedTest test: new QunitTestLocator().locateTests(projectDirectory)){
-                final String name = test.name;
-                System.out.println("Running " + name);
-                log.runningTest(name);
-                
-                try {
-                    QUnitTestPage page = new QUnitTestPage(jetty.port, test.relativePath, 5000, BrowserVersion.FIREFOX_3_6, true);
-                    page.assertTestsPass();
-                } catch (Throwable m){
-                    problems.add("Problems found in '" + name +"':\n"+m.getMessage());
-                }   
+            for(File codePath : codePaths){
+                for(QunitTestLocator.LocatedTest test: new QunitTestLocator().locateTests(codePath)){
+                    final String name = test.name;
+                    System.out.println("Running " + name);
+                    log.runningTest(name);
+                    
+                    try {
+                        QUnitTestPage page = new QUnitTestPage(jetty.port, test.relativePath, 5000, BrowserVersion.FIREFOX_3_6, true);
+                        page.assertTestsPass();
+                    } catch (Throwable m){
+                        problems.add("Problems found in '" + name +"':\n"+m.getMessage());
+                    }   
+                }
             }
             
             return problems;

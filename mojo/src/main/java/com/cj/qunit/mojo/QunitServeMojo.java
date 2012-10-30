@@ -1,8 +1,5 @@
 package com.cj.qunit.mojo;
 
-import java.io.File;
-
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 
 import com.cj.qunit.mojo.http.WebServerUtils;
@@ -13,17 +10,10 @@ import com.cj.qunit.mojo.http.WebServerUtils.JettyPlusPort;
  * @phase test
  * @goal serve
  */
-public class QunitServeMojo extends AbstractMojo {
-    
-    /**
-     * @parameter default-value="${basedir}
-     * @readonly
-     * @required
-     */
-    private File basedir;
+public class QunitServeMojo extends AbstractQunitMojo {
     
     public void execute() throws MojoFailureException {
-        JettyPlusPort jetty = WebServerUtils.launchHttpServer(basedir);
+        JettyPlusPort jetty = WebServerUtils.launchHttpServer(codePaths(), extraPathsToServe());
         
         getLog().info("Server started: visit http://localhost:" + jetty.port + " to run your tests.");
         Object o = new Object();

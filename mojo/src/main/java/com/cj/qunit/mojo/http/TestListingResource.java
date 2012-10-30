@@ -1,6 +1,7 @@
 package com.cj.qunit.mojo.http;
 
 import java.io.File;
+import java.util.List;
 
 import org.httpobjects.HttpObject;
 import org.httpobjects.Request;
@@ -8,13 +9,12 @@ import org.httpobjects.Response;
 
 import com.cj.qunit.mojo.QunitTestLocator;
 
-
 class TestListingResource extends HttpObject {
-    private final File projectDirectory;
+    private final List<File> paths;
     
-    public TestListingResource(String pathPattern, File projectDirectory) {
+    public TestListingResource(String pathPattern, List<File> paths) {
         super(pathPattern);
-        this.projectDirectory = projectDirectory;
+        this.paths = paths;
     }
     
     @Override
@@ -22,8 +22,10 @@ class TestListingResource extends HttpObject {
 
         StringBuffer html = new StringBuffer("<html><body><h1>Qunit Tests</h1>");
         
-        for(QunitTestLocator.LocatedTest test: new QunitTestLocator().locateTests(projectDirectory)){
-            html.append("<div><a href=\"" + test.relativePath + "\">" + test.name + "</a></div>");
+        for(File path: paths){
+            for(QunitTestLocator.LocatedTest test: new QunitTestLocator().locateTests(path)){
+                html.append("<div><a href=\"" + test.relativePath + "\">" + test.name + "</a></div>");
+            }
         }
         
         html.append("</body></html");

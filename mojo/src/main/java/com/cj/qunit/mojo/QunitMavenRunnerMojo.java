@@ -2,29 +2,23 @@ package com.cj.qunit.mojo;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 
 /**
- * Says "Hi" to the user.
  * @phase test
  * @goal test
  */
-public class QunitMavenRunnerMojo extends AbstractMojo {
-    
-    /**
-     * @parameter default-value="${basedir}
-     * @readonly
-     * @required
-     */
-    private File basedir;
+public class QunitMavenRunnerMojo extends AbstractQunitMojo {
     
     public void execute() throws MojoFailureException {
         if(shouldSkipTests()) return;
+        
         final List<String> filesRun = new ArrayList<String>();
-        final List<String> problems = new QunitMavenRunner().run(basedir, new QunitMavenRunner.Listener() {
+        final List<String> problems = new QunitMavenRunner().run(codePaths(), extraPathsToServe(), new QunitMavenRunner.Listener() {
             @Override
             public void runningTest(String relativePath) {
                 getLog().info("Running " + relativePath);
@@ -42,7 +36,7 @@ public class QunitMavenRunnerMojo extends AbstractMojo {
 
             throw new MojoFailureException(problemsString.toString());
         }else{
-            getLog().info("Ran " + filesRun.size() + " QUnit html files");
+            getLog().info("Ran qunit on " + filesRun.size() + " files");
         }
     }
 

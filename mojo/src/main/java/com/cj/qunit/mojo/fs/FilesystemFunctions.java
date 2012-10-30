@@ -1,4 +1,4 @@
-package com.cj.qunit.mojo;
+package com.cj.qunit.mojo.fs;
 
 import java.io.File;
 
