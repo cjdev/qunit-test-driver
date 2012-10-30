@@ -1,13 +1,14 @@
-package sample.plugin;
+package com.cj.qunit.mojo;
 
-import static sample.plugin.FilesystemFunctions.scanFiles;
+import static com.cj.qunit.mojo.FilesystemFunctions.scanFiles;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import sample.plugin.FilesystemFunctions.FileVisitor;
+import com.cj.qunit.mojo.FilesystemFunctions.FileVisitor;
+
 
 public class QunitTestLocator {
     public static class LocatedTest {

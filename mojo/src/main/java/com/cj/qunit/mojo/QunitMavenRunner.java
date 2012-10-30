@@ -1,11 +1,11 @@
-package sample.plugin;
+package com.cj.qunit.mojo;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import sample.plugin.http.WebServerUtils;
 
+import com.cj.qunit.mojo.http.WebServerUtils;
 import com.cj.qunitTestDriver.QUnitTestPage;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 

@@ -1,12 +1,13 @@
-package sample.plugin;
+package com.cj.qunit.mojo;
 
 import java.io.File;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 
-import sample.plugin.http.WebServerUtils;
-import sample.plugin.http.WebServerUtils.JettyPlusPort;
+import com.cj.qunit.mojo.http.WebServerUtils;
+import com.cj.qunit.mojo.http.WebServerUtils.JettyPlusPort;
+
 
 /**
  * @phase test

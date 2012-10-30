@@ -1,4 +1,4 @@
-package sample.plugin.http;
+package com.cj.qunit.mojo.http;
 
 import java.io.File;
 

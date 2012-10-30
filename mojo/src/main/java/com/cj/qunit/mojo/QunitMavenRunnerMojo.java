@@ -1,4 +1,4 @@
-package sample.plugin;
+package com.cj.qunit.mojo;
 
 import java.io.File;
 import java.util.ArrayList;

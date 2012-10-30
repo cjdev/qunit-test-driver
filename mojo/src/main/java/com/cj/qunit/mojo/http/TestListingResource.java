@@ -1,4 +1,4 @@
-package sample.plugin.http;
+package com.cj.qunit.mojo.http;
 
 import java.io.File;
 
@@ -6,7 +6,8 @@ import org.httpobjects.HttpObject;
 import org.httpobjects.Request;
 import org.httpobjects.Response;
 
-import sample.plugin.QunitTestLocator;
+import com.cj.qunit.mojo.QunitTestLocator;
+
 
 class TestListingResource extends HttpObject {
     private final File projectDirectory;
