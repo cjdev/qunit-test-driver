@@ -13,7 +13,7 @@ import com.cj.qunit.mojo.http.WebServerUtils.JettyPlusPort;
 public class QunitServeMojo extends AbstractQunitMojo {
     
     public void execute() throws MojoFailureException {
-        JettyPlusPort jetty = WebServerUtils.launchHttpServer(codePaths(), extraPathsToServe());
+        JettyPlusPort jetty = WebServerUtils.launchHttpServer(codePaths(), extraPathsToServe(), super.requireDotJsShim());
         
         getLog().info("Server started: visit http://localhost:" + jetty.port + " to run your tests.");
         Object o = new Object();

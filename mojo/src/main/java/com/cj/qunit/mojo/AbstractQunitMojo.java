@@ -14,16 +14,24 @@ abstract class AbstractQunitMojo extends AbstractMojo {
      * @required
      */
     private File basedir;
-
+    
+    /**
+     * @parameter
+     */
+    private String requireDotJsShim = "";
+    
     /**
      * @parameter 
      */
     private List<String> extraPathsToServe = new ArrayList<String>();
-
+    
+    protected String requireDotJsShim() {
+		return requireDotJsShim;
+	}
+    
     protected List<File> codePaths(){
         return QunitTestLocator.findCodePaths(basedir);
     }
-
 
     protected List<File> extraPathsToServe(){ 
         List<File> extraPathsToServe = new ArrayList<File>();

@@ -32,7 +32,7 @@ public class QunitMavenRunnerTest {
         List<String> problems;
         Exception t;
         try {
-            problems = runner.run(Collections.singletonList(projectDirectory), Collections.<File>emptyList(), log);
+            problems = runner.run(Collections.singletonList(projectDirectory), Collections.<File>emptyList(), "", log);
             t = null;
         } catch (Exception e) {
             t = e;
@@ -63,7 +63,7 @@ public class QunitMavenRunnerTest {
         List<String> problems;
         Exception t;
         try {
-            problems = runner.run(Collections.singletonList(projectDirectory), Collections.<File>emptyList(), log);
+            problems = runner.run(Collections.singletonList(projectDirectory), Collections.<File>emptyList(), "", log);
             t = null;
         } catch (Exception e) {
             t = e;
@@ -97,7 +97,7 @@ public class QunitMavenRunnerTest {
         List<String> problems;
         Exception t;
         try {
-            problems = runner.run(Collections.singletonList(projectDirectory), Collections.<File>emptyList(), log);
+            problems = runner.run(Collections.singletonList(projectDirectory), Collections.<File>emptyList(), "", log);
             t = null;
         } catch (Exception e) {
             t = e;
@@ -131,7 +131,7 @@ public class QunitMavenRunnerTest {
         List<String> problems;
         Throwable t;
         try {
-            problems = runner.run(Collections.singletonList(projectDirectory), Collections.<File>emptyList(), log);
+            problems = runner.run(Collections.singletonList(projectDirectory), Collections.<File>emptyList(), "", log);
             t = null;
         } catch (Throwable e) {
             t = e;

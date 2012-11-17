@@ -15,8 +15,8 @@ public class QunitMavenRunner {
         void runningTest(String relativePath);
     }
     
-    public List<String> run(final List<File> codePaths, final List<File> extraPathsToServe, final Listener log) {
-        final WebServerUtils.JettyPlusPort jetty = WebServerUtils.launchHttpServer(codePaths, extraPathsToServe);
+    public List<String> run(final List<File> codePaths, final List<File> extraPathsToServe, final String requireDotJsShim, final Listener log) {
+        final WebServerUtils.JettyPlusPort jetty = WebServerUtils.launchHttpServer(codePaths, extraPathsToServe, requireDotJsShim);
 
         try{
 
