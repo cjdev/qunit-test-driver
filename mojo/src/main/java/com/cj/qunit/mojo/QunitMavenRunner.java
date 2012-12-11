@@ -6,6 +6,7 @@ import java.util.List;
 
 
 import com.cj.qunit.mojo.http.WebServerUtils;
+import com.cj.qunitTestDriver.QUnitTestDriver;
 import com.cj.qunitTestDriver.QUnitTestPage;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 
@@ -28,7 +29,8 @@ public class QunitMavenRunner {
                     log.runningTest(name);
                     
                     try {
-                        QUnitTestPage page = new QUnitTestPage(jetty.port, test.relativePath, 5000, BrowserVersion.FIREFOX_3_6, true);
+                        int testTimeout = QUnitTestDriver.getTimeoutFromSystemPropertyWithDefault(5000);
+                        QUnitTestPage page = new QUnitTestPage(jetty.port, test.relativePath, testTimeout, BrowserVersion.FIREFOX_3_6, true);
                         page.assertTestsPass();
                     } catch (Throwable m){
                         problems.add("Problems found in '" + name +"':\n"+m.getMessage());

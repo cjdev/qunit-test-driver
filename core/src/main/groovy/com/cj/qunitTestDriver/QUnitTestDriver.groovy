@@ -7,7 +7,17 @@ import com.cj.qunitTestDriver.config.Configuration
 class QUnitTestDriver {
     final JettyServer server
     final String testPath
-    Integer timeout = QUnitTestPage.DEFAULT_TIMEOUT
+    Integer timeout = getTimeoutFromSystemPropertyWithDefault(5000)
+
+    public static Integer getTimeoutFromSystemPropertyWithDefault(defaultTimeout) {
+        Integer timeout = defaultTimeout
+        String commandLineTimeout = System.getProperty("qunit.timeout")
+        if(commandLineTimeout != null) {
+            timeout = Integer.parseInt(commandLineTimeout)
+        }
+
+        return timeout
+    }
 	Map<String,List<String>> pathMappings = ["/":["./"]]
     Boolean joinToServer=false
 	List<Integer> portSet = [8098, 8198, 8298, 8398, 8498, 8598, 8695, 8796] //Psuedorandom Assortment Of Ports

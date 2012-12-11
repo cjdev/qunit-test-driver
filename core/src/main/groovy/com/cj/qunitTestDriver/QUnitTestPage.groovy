@@ -4,12 +4,10 @@ import com.gargoylesoftware.htmlunit.BrowserVersion
 
 
 public class QUnitTestPage {
-    static final DEFAULT_TIMEOUT = 5000
-
 	PageDriver driver;
     Integer timeout;
 
-    public QUnitTestPage(URL url, timeout=DEFAULT_TIMEOUT, BrowserVersion browserVersion, Boolean waitForTestsToFinish) {
+    public QUnitTestPage(URL url, timeout, BrowserVersion browserVersion, Boolean waitForTestsToFinish) {
         driver = new PageDriver(url.toString(), browserVersion)
         driver.waitForAjax()
         this.timeout = timeout
