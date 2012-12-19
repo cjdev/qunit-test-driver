@@ -16,7 +16,7 @@ public class QunitMavenRunner {
         void runningTest(String relativePath);
     }
     
-    public List<String> run(final List<File> codePaths, final List<File> extraPathsToServe, final String requireDotJsShim, final Listener log) {
+    public List<String> run(final List<File> codePaths, final List<File> extraPathsToServe, final String requireDotJsShim, final Listener log, final int testTimeout) {
         final WebServerUtils.JettyPlusPort jetty = WebServerUtils.launchHttpServer(codePaths, extraPathsToServe, requireDotJsShim);
 
         try{
@@ -29,7 +29,6 @@ public class QunitMavenRunner {
                     log.runningTest(name);
                     
                     try {
-                        int testTimeout = QUnitTestDriver.getTimeoutFromSystemPropertyWithDefault(5000);
                         QUnitTestPage page = new QUnitTestPage(jetty.port, test.relativePath, testTimeout, BrowserVersion.FIREFOX_3_6, true);
                         page.assertTestsPass();
                     } catch (Throwable m){

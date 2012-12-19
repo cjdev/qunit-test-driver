@@ -24,7 +24,7 @@ public class QunitMavenRunnerMojo extends AbstractQunitMojo {
                 getLog().info("Running " + relativePath);
                 filesRun.add(relativePath);
             }
-        });
+        }, returnTimeout());
         
         if(!problems.isEmpty()){
             StringBuffer problemsString = new StringBuffer();

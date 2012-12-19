@@ -19,6 +19,11 @@ abstract class AbstractQunitMojo extends AbstractMojo {
      * @parameter
      */
     private String requireDotJsShim = "";
+
+    /**
+     * @parameter default-value=5000
+     */
+    private int timeout;
     
     /**
      * @parameter 
@@ -28,6 +33,10 @@ abstract class AbstractQunitMojo extends AbstractMojo {
     protected String requireDotJsShim() {
 		return requireDotJsShim;
 	}
+
+    protected int returnTimeout(){
+	return timeout;
+    }
     
     protected List<File> codePaths(){
         return QunitTestLocator.findCodePaths(basedir);
