@@ -1,11 +1,13 @@
 package com.cj.qunitTestDriver
 
 import java.util.Map.Entry
+
 import org.eclipse.jetty.server.Server
-import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.server.handler.ResourceHandler
-import org.eclipse.jetty.server.handler.HandlerList
+import org.eclipse.jetty.server.handler.ContextHandler
 import org.eclipse.jetty.server.handler.DefaultHandler
+import org.eclipse.jetty.server.handler.HandlerList
+import org.eclipse.jetty.server.handler.ResourceHandler
+
 
 public class JettyServer {
     public static final Integer DEFAULT_PORT = 9098
@@ -58,12 +60,14 @@ public class JettyServer {
                 server.start();
                 break;
             } catch (Exception e) {
-                println("That port didn't work...")
+				Integer millisToWait = new Random().nextInt(500)
+                println("That port didn't work; waiting "+millisToWait)
+				Thread.sleep(millisToWait)
             }
         }
 
         if (server == null || !server.isStarted()) {
-            throw new RuntimeException("No Available Ports To Start Jetty");
+            throw new RuntimeException("No Available Ports To Start Jetty")
         }
         return this
     }

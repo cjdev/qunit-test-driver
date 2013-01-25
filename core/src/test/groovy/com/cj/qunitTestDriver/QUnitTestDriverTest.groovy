@@ -19,7 +19,7 @@ class QUnitTestDriverTest {
     @Test
     void pageErrorsAreThrownProperly(){
         Boolean exception = false
-		
+		 
         try {
             QUnitTestDriver.run(testPageUrl)
         } catch(AssertionError e){
