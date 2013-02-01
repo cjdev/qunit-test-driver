@@ -15,7 +15,7 @@ class JettyServerTest {
 	
 	@Test(expected=RuntimeException.class)
 	void noAvailablePortsThrowsAPortNotFoundException(){
-		new JettyServer("", 99999999).start();
+		new JettyServer("", BAD_PORT).start();
 	}
 	
 	@Test
