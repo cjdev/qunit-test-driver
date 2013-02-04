@@ -1,11 +1,8 @@
 package com.cj.qunit.mojo;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 
 /**
@@ -18,7 +15,7 @@ public class QunitMavenRunnerMojo extends AbstractQunitMojo {
         if(shouldSkipTests()) return;
         
         final List<String> filesRun = new ArrayList<String>();
-        final List<String> problems = new QunitMavenRunner().run(codePaths(), extraPathsToServe(), requireDotJsShim(), new QunitMavenRunner.Listener() {
+        final List<String> problems = new QunitMavenRunner().run(codePaths(), extraPathsToServe(), webPathToRequireDotJsConfig(), new QunitMavenRunner.Listener() {
             @Override
             public void runningTest(String relativePath) {
                 getLog().info("Running " + relativePath);

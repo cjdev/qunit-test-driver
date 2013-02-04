@@ -18,7 +18,7 @@ abstract class AbstractQunitMojo extends AbstractMojo {
     /**
      * @parameter
      */
-    private String requireDotJsShim = "";
+    private String webPathToRequireDotJsConfig = "";
 
     /**
      * @parameter default-value=5000
@@ -30,8 +30,8 @@ abstract class AbstractQunitMojo extends AbstractMojo {
      */
     private List<String> extraPathsToServe = new ArrayList<String>();
     
-    protected String requireDotJsShim() {
-		return requireDotJsShim;
+    protected String webPathToRequireDotJsConfig() {
+		return webPathToRequireDotJsConfig;
 	}
 
     protected int returnTimeout(){
