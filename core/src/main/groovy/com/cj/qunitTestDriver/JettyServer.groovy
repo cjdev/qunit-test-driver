@@ -60,6 +60,7 @@ public class JettyServer {
                 server.start();
                 break;
             } catch (Exception e) {
+				stop()
 				Integer millisToWait = new Random().nextInt(500)
                 println("That port didn't work; waiting "+millisToWait)
 				Thread.sleep(millisToWait)
@@ -73,7 +74,7 @@ public class JettyServer {
     }
 
     public void stop() throws Exception {
-        server.stop()
+		if(server!=null) server.doStop()
     }
 
     public void join() throws InterruptedException {
