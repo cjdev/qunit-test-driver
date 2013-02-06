@@ -3,6 +3,7 @@ package com.cj.qunit.mojo;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +16,17 @@ import org.junit.Test;
 import com.cj.qunit.mojo.QunitMavenRunner;
 
 public class QunitMavenRunnerTest {
+    
+    
+    private static void write(File baseDir, String path, String content){
+        try {
+            File where = new File(baseDir, path);
+            where.getParentFile().mkdirs();
+            FileUtils.writeStringToFile(where, content);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     
     @Test
     public void theRunnerProvidesRequireDotJs() throws Exception {
@@ -36,6 +48,7 @@ public class QunitMavenRunnerTest {
             t = null;
         } catch (Exception e) {
             t = e;
+            t.printStackTrace();
             problems = Collections.emptyList();
         }
         
@@ -45,6 +58,82 @@ public class QunitMavenRunnerTest {
         Assert.assertEquals(0, problems.size());
         Assert.assertEquals(1, log.pathsRun.size());
         Assert.assertEquals("src/test/whatever/Whatever.qunit.js", log.pathsRun.get(0));
+    }
+    
+    @Test
+    public void nullRequireDotJsConfigFileDefaultsToSomethingUsableToNestedCode() throws Exception {
+        // given
+        
+        for(String nullPath: new String[]{null, ""}){
+            File projectDirectory = tempDirectory();
+            
+            write(projectDirectory, "src/main/whatever/a.js",
+                    "define(function(){" +
+                    "    return 'I am module a';" +
+                    "});");
+            
+            write(projectDirectory, "src/test/whatever/somedir/Whatever.qunit.js",
+                    "require(['a'], function(a){" +
+                    "    module('mytests');" +
+                    "    test('mytest', function(){" +
+                    "        equal(a, 'I am module a');" +
+                    "    });" +
+                    "});");
+            
+            QunitMavenRunner runner = new QunitMavenRunner();
+            FakeLog log = new FakeLog();
+            
+            // when
+            List<String> problems;
+            Exception t;
+            try {
+                problems = runner.run(Arrays.asList(
+                                                new File(projectDirectory, "src/main/whatever"),
+                                                new File(projectDirectory, "src/test/whatever")), 
+                                      Collections.<File>emptyList(), nullPath, log, 5000);
+                t = null;
+            } catch (Exception e) {
+                t = e;
+                t.printStackTrace();
+                problems = Collections.emptyList();
+            }
+            
+            // then
+            Assert.assertTrue("The plugin should not blow up", t == null);
+            for(String p : problems){
+                System.err.println(p);
+            }
+            Assert.assertEquals(0, problems.size());
+            Assert.assertEquals(1, log.pathsRun.size());
+            Assert.assertEquals("somedir/Whatever.qunit.js", log.pathsRun.get(0));
+        }
+       
+    }
+    
+    
+    @Test
+    public void nonexistentRequireDotJsConfigFilesAreUnacceptable() throws Exception {
+        // given
+        File projectDirectory = tempDirectory();
+        
+        QunitMavenRunner runner = new QunitMavenRunner();
+        FakeLog log = new FakeLog();
+        
+        // when
+        Exception err;
+        try {
+            runner.run(Collections.singletonList(projectDirectory), Collections.<File>emptyList(), "/some-nonexistent-file.js", log, 5000);
+            err = null;
+        } catch (Exception e) {
+            err = e;
+        }
+        
+        // then
+        Assert.assertNotNull(err);
+        Assert.assertEquals(RuntimeException.class.getName(), err.getClass().getName());
+        Assert.assertEquals(
+                "You configured a require.js configuration path of \"/some-nonexistent-file.js\".  However, it doesn't seem to exist.  Here's where I looked for it:\n"+
+                "    " + projectDirectory.getAbsolutePath() + "/some-nonexistent-file.js", err.getMessage().trim());
     }
     
     @Test
