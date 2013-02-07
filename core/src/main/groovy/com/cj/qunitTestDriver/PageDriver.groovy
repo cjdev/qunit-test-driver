@@ -46,8 +46,12 @@ class PageDriver {
 		throw new AssertionError(potentialError + page.asText())
 	}
 	
+    public boolean containsText(String text){
+        return page.asText().contains(text)
+    }
+    
 	PageDriver shouldContainText(String text) {
-		assertTrue("Expected '$text' in '${page.asText()}'", page.asText().contains(text))
+		assertTrue("Expected '$text' in '${page.asText()}'", containsText(text))
 		return this
 	}
 	
