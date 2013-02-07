@@ -1,9 +1,13 @@
 package com.cj.qunitTestDriver
 
+import java.util.List;
+
 import com.gargoylesoftware.htmlunit.BrowserVersion
+import com.gargoylesoftware.htmlunit.html.DomNode;
 
 
 public class QUnitTestPage {
+    private static final String TESTS_COMPLETED_STRING = "Tests completed in"
 	public PageDriver driver;
     Integer timeout;
 
@@ -21,39 +25,63 @@ public class QUnitTestPage {
     }
 
     void waitForQunitTests() {
-        driver.waitForTextToBePresent("Tests completed in", timeout)
+        driver.waitForTextToBePresent(TESTS_COMPLETED_STRING, timeout)
     }
 
+    
+    public Status status(){
+        
+        boolean isComplete = driver.containsText(TESTS_COMPLETED_STRING)
+        int numPassed = passed();
+        int numFailed = failed();
+        int numFailedAssertions = 0;
+        String brokenTests = ""
+        List<TestStatus> tests = [];
+        
+        if(numPassed > 0 || numFailed > 0){
+            List<DomNode> testNodes = driver.findElementsByXPath("//ol[@id='qunit-tests']//li[contains(@id,'test-output')]");
+            
+            def modules = [:]
+            
+            for(DomNode testNode : testNodes) {
+                DomNode moduleDomNode = testNode.getFirstByXPath(".//*[@class='module-name']");
+                String moduleName = moduleDomNode != null ? moduleDomNode.asText() : "<unnamed module>";
+                
+                DomNode testNameDomNode = testNode.getFirstByXPath(".//*[@class='test-name']");
+                String testName = testNameDomNode.asText();
+                
+                
+                TestStatus test = new TestStatus(testName, moduleName, testNode) 
+                tests.add(test);
+                
+                brokenTests += "\nTest Name: ${moduleName}: ${testName}"
+                                
+                test.failures.each { failure ->
+                    numFailedAssertions++
+                    brokenTests += "\n\tFailed Assertion: ${failure}"
+                }
+            }
+        }
+        
+        return new Status(numPassed, numFailed, numFailedAssertions, brokenTests, isComplete, tests)
+    }
+    
+    
     public void assertTestsPass(){
 
         driver.shouldContainText("Tests completed in")
-
-        if (failed() > 0){
-
-            def numFailedAssertions = 0
-            def brokenTests = ""
-			def failedTestNodes = driver.findElementsByXPath("//ol[@id='qunit-tests']//li[@class='fail' and contains(@id,'qunit-test-output')]")
-
-            failedTestNodes.each { testNode -> 
-				def module = testNode.getFirstByXPath(".//*[@class='module-name']").asText()
-				def test = testNode.getFirstByXPath(".//*[@class='test-name']").asText()
-
-                brokenTests += "\nTest Name: ${module}: ${test}"
-
-                def failedAssertionNodes = testNode.getByXPath(".//li[@class='fail']")
-
-                failedAssertionNodes.each { failure -> 
-                    numFailedAssertions++
-                    brokenTests += "\n\tFailed Assertion: ${failure.asText()}" 
-                }
-            }
-
-            throw new AssertionError("${numFailedAssertions} assertions failed. ${brokenTests}\n\n\n${driver.getPage().asText()}")
+        
+        Status status = status();
+        
+        if(status.numFailed > 0){
+            throw new AssertionError("${status.numFailedAssertions} assertions failed. ${status.brokenTests}\n\n\n${driver.getPage().asText()}")
         }
         
-        if(passed()<=0){
+        
+        if(status.numPassed<=0){
             throw new AssertionError("There were no tests found in this html file.")
         }
+        
     }
     
     Integer failed(){

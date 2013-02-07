@@ -35,7 +35,17 @@ class QUnitTestDriverTest {
     void twoTestsPassAndTwoTestsFail(){
         runner = new QUnitTestDriver(testPageUrl)
         QUnitTestPage page = runner.getTestPage()
-		
+        
+        TestStatus works = page.status().tests[0]
+        assertEquals("a basic qunit example", works.name)
+        
+        TestStatus broken = page.status().tests[1]
+        assertEquals("a broken qunit", broken.name);
+        assertEquals("This is a qunit failure", broken.failures[0])
+        assertEquals("This is another qunit failure", broken.failures[1])
+        
+        assertEquals(2, page.status().tests.size)
+        
         assertEquals(4,page.passed())
         assertEquals(2,page.failed())
 		
