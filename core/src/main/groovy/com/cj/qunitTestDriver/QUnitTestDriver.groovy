@@ -7,7 +7,7 @@ import com.cj.qunitTestDriver.config.Configuration
 class QUnitTestDriver {
     final JettyServer server
     final String testPath
-    Integer timeout = getTimeoutFromSystemPropertyWithDefault(5000)
+    public Integer timeout = getTimeoutFromSystemPropertyWithDefault(5000)
 
     public static Integer getTimeoutFromSystemPropertyWithDefault(defaultTimeout) {
         Integer timeout = defaultTimeout
@@ -39,7 +39,7 @@ class QUnitTestDriver {
 		this(testRelativePath, configs.toArray(new Configuration[0]))
 		
 	}
-
+    
     public static void run(String testRelativePath, Configuration... configs) {
         QUnitTestDriver runner = new QUnitTestDriver(testRelativePath, configs)
         
@@ -51,11 +51,11 @@ class QUnitTestDriver {
         }
     }
     
-    protected QUnitTestPage getTestPage() {
+    public QUnitTestPage getTestPage() {
         return new QUnitTestPage(server.getPort(), testPath, timeout, browserVersion, true)
     }
 	
-	protected QUnitTestPage getTestPageImmediate() {
+	public QUnitTestPage getTestPageImmediate() {
 		return new QUnitTestPage(server.getPort(), testPath, timeout, browserVersion, false)
 	}
 

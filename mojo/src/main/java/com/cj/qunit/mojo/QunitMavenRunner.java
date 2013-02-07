@@ -68,6 +68,7 @@ public class QunitMavenRunner {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void validateJsConfigpath(final List<File> codePaths,
             final List<File> extraPathsToServe,
             final String webPathToRequireDotJsConfig) {

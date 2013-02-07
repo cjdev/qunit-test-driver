@@ -4,7 +4,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion
 
 
 public class QUnitTestPage {
-	PageDriver driver;
+	public PageDriver driver;
     Integer timeout;
 
     public QUnitTestPage(URL url, timeout, BrowserVersion browserVersion, Boolean waitForTestsToFinish) {
