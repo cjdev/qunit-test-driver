@@ -14,6 +14,11 @@ abstract class AbstractQunitMojo extends AbstractMojo {
      * @required
      */
     private File basedir;
+
+    /**
+     * @parameter
+     */
+    private String webRoot = "/";
     
     /**
      * @parameter
@@ -40,6 +45,10 @@ abstract class AbstractQunitMojo extends AbstractMojo {
     
     protected List<File> codePaths(){
         return QunitTestLocator.findCodePaths(basedir);
+    }
+    
+    public String webRoot() {
+        return webRoot;
     }
 
     protected List<File> extraPathsToServe(){ 

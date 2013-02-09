@@ -15,7 +15,7 @@ public class QunitMavenRunnerMojo extends AbstractQunitMojo {
         if(shouldSkipTests()) return;
         
         final List<String> filesRun = new ArrayList<String>();
-        final List<String> problems = new QunitMavenRunner().run(codePaths(), extraPathsToServe(), webPathToRequireDotJsConfig(), new QunitMavenRunner.Listener() {
+        final List<String> problems = new QunitMavenRunner().run(webRoot(), codePaths(), extraPathsToServe(), webPathToRequireDotJsConfig(), new QunitMavenRunner.Listener() {
             @Override
             public void runningTest(String relativePath) {
                 getLog().info("Running " + relativePath);

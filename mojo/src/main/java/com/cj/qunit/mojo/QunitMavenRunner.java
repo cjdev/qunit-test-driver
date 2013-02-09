@@ -3,6 +3,7 @@ package com.cj.qunit.mojo;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.cj.qunit.mojo.http.WebServerUtils;
 import com.cj.qunitTestDriver.QUnitTestPage;
@@ -24,10 +25,11 @@ public class QunitMavenRunner {
         return result;
     }
     
-    public List<String> run(final List<File> codePaths, final List<File> extraPathsToServe, final String webPathToRequireDotJsConfig, final Listener log, final int testTimeout) {
+    public List<String> run(final String webRoot, final List<File> codePaths, final List<File> extraPathsToServe, final String webPathToRequireDotJsConfig, final Listener log, final int testTimeout) {
         final String requireDotJsConfig;
-        
 
+        final String normalizedWebRoot = normalizedWebRoot(webRoot);
+        
         if(webPathToRequireDotJsConfig!=null && webPathToRequireDotJsConfig.trim().equals("")){
             requireDotJsConfig = null;
         }else{
@@ -35,9 +37,9 @@ public class QunitMavenRunner {
         }
         
         
-        validateJsConfigpath(codePaths, extraPathsToServe, requireDotJsConfig);
+        validateJsConfigpath(normalizedWebRoot, codePaths, extraPathsToServe, requireDotJsConfig);
         
-        final WebServerUtils.JettyPlusPort jetty = WebServerUtils.launchHttpServer(codePaths, extraPathsToServe, requireDotJsConfig);
+        final WebServerUtils.JettyPlusPort jetty = WebServerUtils.launchHttpServer(normalizedWebRoot, codePaths, extraPathsToServe, requireDotJsConfig);
         
         try{
 
@@ -68,8 +70,13 @@ public class QunitMavenRunner {
         }
     }
 
+    private String normalizedWebRoot(final String webRoot) {
+        final String normalizedWebRoot = webRoot.endsWith("/") ? webRoot.substring(0, webRoot.length()-1) : webRoot;
+        return normalizedWebRoot;
+    }
+
     @SuppressWarnings("unchecked")
-    private void validateJsConfigpath(final List<File> codePaths,
+    private void validateJsConfigpath(final String webRoot, final List<File> codePaths,
             final List<File> extraPathsToServe,
             final String webPathToRequireDotJsConfig) {
         
@@ -77,9 +84,11 @@ public class QunitMavenRunner {
         
         boolean found = false;
         
+        final String relativeFilesystemPathToRequireDotJsConfig = webPathToRequireDotJsConfig.replaceFirst(Pattern.quote(webRoot), "");
+        
         List<File> placesLooked = new ArrayList<File>();
-        for(File path : concat(codePaths, extraPathsToServe)){
-            final File config = new File(path, webPathToRequireDotJsConfig);
+        for(File codeDir : concat(codePaths, extraPathsToServe)){
+            final File config = new File(codeDir, relativeFilesystemPathToRequireDotJsConfig);
             placesLooked.add(config);
             if(config.exists()){
                found = true; 
