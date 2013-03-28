@@ -6,6 +6,9 @@
 	<artifactId>qunit-test-driver-pom</artifactId>
 	<version>1.3.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
+    <properties>
+        <eclipse.jetty.version>8.1.9.v20130131</eclipse.jetty.version>
+    </properties>
 
 	<name>${pom.artifactId}</name>
 

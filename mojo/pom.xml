@@ -53,17 +53,17 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
-			<version>8.0.4.v20111024</version>
+            <version>${eclipse.jetty.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-servlet</artifactId>
-			<version>8.0.4.v20111024</version>
+            <version>${eclipse.jetty.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-websocket</artifactId>
-			<version>8.0.4.v20111024</version>
+            <version>${eclipse.jetty.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
