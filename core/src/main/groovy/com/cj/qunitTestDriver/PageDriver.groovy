@@ -1,5 +1,6 @@
 package com.cj.qunitTestDriver
 
+import com.gargoylesoftware.htmlunit.IncorrectnessListener;
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.gargoylesoftware.htmlunit.WebClient
 import com.gargoylesoftware.htmlunit.html.DomNode
@@ -10,10 +11,17 @@ class PageDriver {
 	
 	private final WebClient webClient
 	private HtmlPage page
+
+    private final IncorrectnessListener ignoreObsoleteContentTypes = [notify: {String arg, Object obj ->
+        if (!arg.find(/Obsolete content type/)) {
+            System.err.println(arg.toString());
+        }
+    }] as IncorrectnessListener;
 	
 	public PageDriver(String url, BrowserVersion browserVersion) {
 		webClient = new WebClient(browserVersion)
 		webClient.setUseInsecureSSL(true)
+		webClient.setIncorrectnessListener(ignoreObsoleteContentTypes);
 		navigateTo(url)
 	}
 	
