@@ -51,7 +51,7 @@ public class QunitMavenRunner {
                     log.runningTest(name);
                     
                     try {
-                        QUnitTestPage page = new QUnitTestPage(jetty.port, test.relativePath, testTimeout, BrowserVersion.FIREFOX_3_6, true);
+                        QUnitTestPage page = new QUnitTestPage(jetty.port, test.relativePath, testTimeout, BrowserVersion.FIREFOX_17, true);
                         
                         page.assertTestsPass();
                     } catch (Throwable m){
