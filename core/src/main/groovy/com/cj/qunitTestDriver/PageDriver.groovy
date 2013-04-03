@@ -2,6 +2,7 @@ package com.cj.qunitTestDriver
 
 import java.util.logging.Logger
 import java.util.logging.Level
+import java.util.ArrayList
 
 import com.gargoylesoftware.htmlunit.IncorrectnessListener
 import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener
@@ -75,18 +76,17 @@ class PageDriver {
 		return this;
 	}
 
-	public PageDriver waitForTextToBePresent(String text, Integer timeout){
+	public void waitForTextToBePresent(text, Integer timeout){
 		String potentialError = "'"+text+"' didn't show up in "+timeout+" milliseconds."
 
 		int millisToWait = 100
 
 		for(int t=timeout; t>0; t+=-millisToWait) {
-			try {
-				shouldContainText(text)
-				return;
-			} catch(Throwable th){}
+                    if (containsText(text)) {
+                        return; 
+                    }
 
-			Thread.sleep(millisToWait)
+                    Thread.sleep(millisToWait)
 		}
 
 		//never saw the text!
@@ -98,10 +98,15 @@ class PageDriver {
 		return page.asText().contains(text)
 	}
 
-	PageDriver shouldContainText(String text) {
-		assertTrue("Expected '$text' in '${page.asText()}'", containsText(text))
-		return this
-	}
+        public boolean containsText(ArrayList<String> list) {
+            for( item in list ) {
+                if (containsText(item)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
 	public List<DomNode> findElementsByXPath(String xPath) {
 		return (List<DomNode>) page.getByXPath(xPath)
