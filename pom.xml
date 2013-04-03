@@ -10,7 +10,7 @@
         <eclipse.jetty.version>8.1.9.v20130131</eclipse.jetty.version>
     </properties>
 
-	<name>${pom.artifactId}</name>
+	<name>${project.artifactId}</name>
 
 	<modules>
 		<module>core</module>

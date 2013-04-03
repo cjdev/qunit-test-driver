@@ -10,7 +10,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	
 	<artifactId>qunit-test-driver</artifactId>
 	
-    <name>${pom.artifactId}</name>
+    <name>${project.artifactId}</name>
 
 	<build>
 		<plugins>
