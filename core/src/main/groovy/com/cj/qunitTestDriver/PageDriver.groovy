@@ -100,20 +100,6 @@ class PageDriver {
 		Boolean containsText = false
 		retryAFewTimesAfterWaiting({->containsText = page.asText().contains(text)})
 		return containsText
-//		
-//                try {
-//                    return page.asText().contains(text);
-//
-//                // There appears to be a bug in HTML Unit where it throws an NPE
-//                // when attempting convert the page to text. As far as we can 
-//                // determine, this situation is analagous to the text not existing 
-//                // so, rather than exploding, return false.
-//                //
-//                // See: http://sourceforge.net/p/htmlunit/bugs/891/#663c
-//                } catch (NullPointerException e) {
-//                    logger.info("NPE while converting the page to text.")
-//                    return false;
-//                }
 	}
 	
 	private void retryAFewTimesAfterWaiting(def command){
@@ -132,11 +118,11 @@ class PageDriver {
     public boolean containsText(ArrayList<String> list) {
         for( item in list ) {
             if (containsText(item)) {
-                return true;
+                return true
             }
         }
 
-        return false;
+        return false
     }
 
 	public List<DomNode> findElementsByXPath(String xPath) {
