@@ -18,6 +18,7 @@ class PageDriver {
 
 	private final WebClient webClient
 	private HtmlPage page
+        private logger
 
 	private WebClient silenceHTMLUnit(WebClient client) {
 		// silence all html unit related errors
@@ -52,6 +53,7 @@ class PageDriver {
 	}
 
 	public PageDriver(String url, BrowserVersion browserVersion) {
+                logger = Logger.getLogger("com.cj.qunitTestDriver.PageDriver");
 		webClient = new WebClient(browserVersion)
 
 		// turn off chatty htmlunit - TODO: make configurable
@@ -95,7 +97,19 @@ class PageDriver {
 	}
 
 	public boolean containsText(String text){
-		return page.asText().contains(text)
+                try {
+                    return page.asText().contains(text);
+
+                // There appears to be a bug in HTML Unit where it throws an NPE
+                // when attempting convert the page to text. As far as we can 
+                // determine, this situation is analagous to the text not existing 
+                // so, rather than exploding, return false.
+                //
+                // See: http://sourceforge.net/p/htmlunit/bugs/891/#663c
+                } catch (NullPointerException e) {
+                    logger.info("NPE while converting the page to text.")
+                    return false;
+                }
 	}
 
         public boolean containsText(ArrayList<String> list) {
