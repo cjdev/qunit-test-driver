@@ -10,22 +10,21 @@ public class QUnitTestPage {
     private static final String TESTS_COMPLETED_STRING = "Tests completed in";
     private static final String GLOBAL_FAILURE_STRING = "global failure";
     public PageDriver driver;
-    Integer timeout;
+    
 
     public QUnitTestPage(URL url, timeout, BrowserVersion browserVersion, Boolean waitForTestsToFinish) {
         driver = new PageDriver(url.toString(), browserVersion);
         driver.waitForAjax();
-        this.timeout = timeout;
 
         if(waitForTestsToFinish)
-            waitForQunitTests();
+            waitForQunitTests(timeout);
     }
 
     public QUnitTestPage(int localPort, String relativePathOfTest, Integer testTimeout, BrowserVersion browserVersion, Boolean waitForTestsToFinish) {
         this("http://localhost:$localPort/$relativePathOfTest".toURL(), testTimeout, browserVersion, waitForTestsToFinish);
     }
 
-    void waitForQunitTests() {
+    void waitForQunitTests(Integer timeout) {
         driver.waitForTextToBePresent(
                 [TESTS_COMPLETED_STRING, GLOBAL_FAILURE_STRING],
                 timeout
