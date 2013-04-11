@@ -1,80 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.cj.qunit-test-driver</groupId>
-	<artifactId>qunit-test-driver-pom</artifactId>
-	<version>1.5.0</version>
-	<packaging>pom</packaging>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.cj.qunit-test-driver</groupId>
+    <artifactId>qunit-test-driver-pom</artifactId>
+    <version>1.5.0</version>
+    <packaging>pom</packaging>
     <properties>
         <eclipse.jetty.version>8.1.9.v20130131</eclipse.jetty.version>
     </properties>
 
-	<name>${project.artifactId}</name>
+    <name>${project.artifactId}</name>
 
-	<modules>
-		<module>core</module>
-		<module>mojo</module>
-		<module>junit</module>
-	</modules>
+    <modules>
+        <module>core</module>
+        <module>mojo</module>
+        <module>junit</module>
+    </modules>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
 
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.gmaven</groupId>
-										<artifactId>gmaven-plugin</artifactId>
-										<versionRange>[1.2,)</versionRange>
-										<goals>
-											<goal>generateStubs</goal>
-											<goal>compile</goal>
-											<goal>generateTestStubs</goal>
-											<goal>testCompile</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings 
+                                        only. It has no influence on the Maven build itself. -->
+                                <plugin>
+                                    <groupId>org.eclipse.m2e</groupId>
+                                    <artifactId>lifecycle-mapping</artifactId>
+                                    <version>1.0.0</version>
+                                    <configuration>
+                                        <lifecycleMappingMetadata>
+                                            <pluginExecutions>
+                                                <pluginExecution>
+                                                    <pluginExecutionFilter>
+                                                        <groupId>org.codehaus.gmaven</groupId>
+                                                        <artifactId>gmaven-plugin</artifactId>
+                                                        <versionRange>[1.2,)</versionRange>
+                                                        <goals>
+                                                            <goal>generateStubs</goal>
+                                                            <goal>compile</goal>
+                                                            <goal>generateTestStubs</goal>
+                                                            <goal>testCompile</goal>
+                                                        </goals>
+                                                    </pluginExecutionFilter>
+                                                    <action>
+                                                        <ignore></ignore>
+                                                    </action>
+                                                </pluginExecution>
+                                            </pluginExecutions>
+                                        </lifecycleMappingMetadata>
+                                    </configuration>
+                                </plugin>
+                            </plugins>
+                        </pluginManagement>
+                    </build>
 
-            <repositories>
-                <repository>
-                    <id>cjdev-open-source-snapshots</id>
-                    <url>https://repository-cjdev.forge.cloudbees.com/snapshot/</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                </repository>
-            </repositories>
+                    <repositories>
+                        <repository>
+                            <id>cjdev-open-source-snapshots</id>
+                            <url>https://repository-cjdev.forge.cloudbees.com/snapshot/</url>
+                            <releases>
+                                <enabled>true</enabled>
+                            </releases>
+                            <snapshots>
+                                <enabled>true</enabled>
+                            </snapshots>
+                        </repository>
+                    </repositories>
 
-</project>
+                </project>
