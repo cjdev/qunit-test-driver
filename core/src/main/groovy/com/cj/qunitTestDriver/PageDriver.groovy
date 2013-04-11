@@ -28,7 +28,7 @@ class PageDriver {
 
 		int millisToWait = 100
 
-		for(int t=timeout; t>0; t+=-millisToWait) {
+		for(int remaining=timeout; remaining>0; remaining -= millisToWait) {
                     if (containsText(text)) {
                         return; 
                     }
