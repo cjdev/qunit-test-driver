@@ -5,6 +5,7 @@ import java.util.List;
 import com.gargoylesoftware.htmlunit.BrowserVersion
 import com.gargoylesoftware.htmlunit.html.DomNode;
 
+import com.cj.qunitTestDriver.WebClientFactory
 
 public class QUnitTestPage {
     private static final String TESTS_COMPLETED_STRING = "Tests completed in";
@@ -13,7 +14,11 @@ public class QUnitTestPage {
     
 
     public QUnitTestPage(URL url, timeout, BrowserVersion browserVersion, Boolean waitForTestsToFinish) {
-        driver = new PageDriver(url.toString(), browserVersion);
+        driver = new PageDriver(
+                new WebClientFactory().getWebClient(browserVersion),
+                url.toString()
+                )
+
         driver.waitForAjax();
 
         if(waitForTestsToFinish)
