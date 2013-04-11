@@ -18,8 +18,8 @@ class PageDriver {
             page = (HtmlPage) webClient.getPage(url)
 	}
 
-	public PageDriver waitForAjax() {
-		webClient.waitForBackgroundJavaScript(3000)
+	public PageDriver waitForAjax(duration=3000) {
+		webClient.waitForBackgroundJavaScript(duration)
 		return this;
 	}
 
