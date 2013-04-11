@@ -124,13 +124,17 @@ public class QUnitTestPage {
     }
 
     private Integer getTestResultCount(String resultType) {
-        return Integer.parseInt(
-            ((List<DomNode>)
-                driver.page.getByXPath(
-                    "/html/body/p[@id=\"qunit-testresult\"]/span[contains(@class, '" +
-                    resultType +
-                    "')]")
-            ).get(0).asText()
+        def node = ((DomNode)
+            driver.page.getFirstByXPath(
+                "/html/body/p[@id=\"qunit-testresult\"]/span[contains(@class, '" +
+                resultType +
+                "')]")
         )
+
+        if( node != null ) {
+            return Integer.parseInt(node.asText())
+        }
+
+        return 0;
     }
 }
