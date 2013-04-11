@@ -24,12 +24,12 @@ public class QUnitTestPage {
         if(waitForTestsToFinish) {
             if(!waitForQunitTests(timeout)) {
 		//never saw the text!
-		text = driver.getPage().asText()
+		def text = driver.getPage().asText()
 		throw new RuntimeException(
                     "Failed to find test termination marker (" +
                     [TESTS_COMPLETED_STRING, GLOBAL_FAILURE_STRING] +
                     ") in page text:\n\n" +
-                    text())
+                    text)
             }
         }
     }

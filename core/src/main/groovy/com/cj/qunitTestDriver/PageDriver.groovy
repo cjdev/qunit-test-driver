@@ -39,8 +39,18 @@ class PageDriver {
 
 	public boolean containsText(String text){
                 try {
-                    return page.asText().contains(text);
+                    def element = ((DomNode)
+                        page.getFirstByXPath(
+                            "/html/body/p[@id=\"qunit-testresult\"]/text()"
+                        ))
 
+                        if(element != null) {
+                            if( element.asText().contains(text) ) {
+                                return true;
+                            }
+                        }
+                        
+                        
                 // There appears to be a bug in HTML Unit where it throws an NPE
                 // when attempting convert the page to text. As far as we can 
                 // determine, this situation is analagous to the text not existing 
