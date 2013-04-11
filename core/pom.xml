@@ -5,7 +5,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<parent>
 		<groupId>com.cj.qunit-test-driver</groupId>
 		<artifactId>qunit-test-driver-pom</artifactId>
-		<version>1.4.0</version>
+		<version>1.5.0</version>
 	</parent>
 	
 	<artifactId>qunit-test-driver</artifactId>
