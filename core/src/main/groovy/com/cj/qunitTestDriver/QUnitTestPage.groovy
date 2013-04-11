@@ -47,7 +47,9 @@ public class QUnitTestPage {
 
 
     public Status status(){
-        boolean isComplete = driver.containsText(TESTS_COMPLETED_STRING) || driver.containsText(GLOBAL_FAILURE_STRING);
+        boolean isComplete = driver.containsText(
+            [TESTS_COMPLETED_STRING, GLOBAL_FAILURE_STRING]
+        );
         int numPassed = passed();
         int numFailed = failed();
         int numFailedAssertions = 0;
