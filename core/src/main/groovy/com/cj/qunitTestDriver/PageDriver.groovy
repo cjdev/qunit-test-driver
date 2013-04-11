@@ -5,7 +5,6 @@ import java.util.ArrayList
 import com.gargoylesoftware.htmlunit.WebClient
 import com.gargoylesoftware.htmlunit.html.DomNode
 import com.gargoylesoftware.htmlunit.html.HtmlPage
-import static org.junit.Assert.assertTrue
 
 
 class PageDriver {
@@ -23,22 +22,19 @@ class PageDriver {
 		return this;
 	}
 
-	public void waitForTextToBePresent(text, Integer timeout){
-		String potentialError = "'"+text+"' didn't show up in "+timeout+" milliseconds."
+	public boolean waitForTextToBePresent(text, Integer timeout){
 
 		int millisToWait = 100
 
 		for(int remaining=timeout; remaining>0; remaining -= millisToWait) {
                     if (containsText(text)) {
-                        return; 
+                        return true; 
                     }
 
                     Thread.sleep(millisToWait)
 		}
 
-		//never saw the text!
-		println page.asText()
-		throw new AssertionError(potentialError + page.asText())
+                return false;
 	}
 
 	public boolean containsText(String text){

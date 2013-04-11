@@ -108,19 +108,18 @@ class QUnitTestDriverTest {
     @Test
     void canConfigureServerRoots(){
         String newRootOne = "/new/root/one"
-		String newRootTwo = "/new/root/two"
+        String newRootTwo = "/new/root/two"
 		
         runner = new QUnitTestDriver(testPageUrl, new PathMapping("/one", newRootOne), new PathMapping("/one", newRootTwo))
         assertEquals(["/":["./"], "/one":[newRootOne, newRootTwo]], runner.pathMappings)
     }
 
     @Test
-	void canConfigureWithTimeout() {
+        void canConfigureWithTimeout() {
         Integer timeout = 30000
         runner = new QUnitTestDriver(testPageUrl, new TestTimeout(timeout))
 		
         assertEquals(timeout, runner.timeout)
-        assertEquals(timeout, runner.getTestPage().timeout)
     }
 	
 	@After

@@ -21,19 +21,28 @@ public class QUnitTestPage {
 
         driver.waitForAjax();
 
-        if(waitForTestsToFinish)
-            waitForQunitTests(timeout);
+        if(waitForTestsToFinish) {
+            if(!waitForQunitTests(timeout)) {
+		//never saw the text!
+		text = driver.getPage().asText()
+		throw new RuntimeException(
+                    "Failed to find test termination marker (" +
+                    [TESTS_COMPLETED_STRING, GLOBAL_FAILURE_STRING] +
+                    ") in page text:\n\n" +
+                    text())
+            }
+        }
     }
 
     public QUnitTestPage(int localPort, String relativePathOfTest, Integer testTimeout, BrowserVersion browserVersion, Boolean waitForTestsToFinish) {
         this("http://localhost:$localPort/$relativePathOfTest".toURL(), testTimeout, browserVersion, waitForTestsToFinish);
     }
 
-    void waitForQunitTests(Integer timeout) {
-        driver.waitForTextToBePresent(
-                [TESTS_COMPLETED_STRING, GLOBAL_FAILURE_STRING],
-                timeout
-                );
+    boolean waitForQunitTests(timeout) {
+        return driver.waitForTextToBePresent(
+            [TESTS_COMPLETED_STRING, GLOBAL_FAILURE_STRING],
+            timeout
+            )
     }
 
 
