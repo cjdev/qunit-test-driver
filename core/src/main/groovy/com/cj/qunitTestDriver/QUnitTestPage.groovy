@@ -114,11 +114,21 @@ public class QUnitTestPage {
     }
 
     Integer failed(){
-        def failed = new QUnitElement(driver).withClass("failed")
-            Integer.parseInt(failed.asText())
+        return getTestResultCount("failed")
     }
 
     Integer passed(){
-        Integer.parseInt(new QUnitElement(driver).withClass("passed").asText())
+        return getTestResultCount("passed")
+    }
+
+    private Integer getTestResultCount(String resultType) {
+        return Integer.parseInt(
+            ((List<DomNode>)
+                driver.page.getByXPath(
+                    "/html/body/p[@id=\"qunit-testresult\"]/span[contains(@class, '" +
+                    resultType +
+                    "')]")
+            ).get(0).asText()
+        )
     }
 }
