@@ -2,9 +2,15 @@
 <head>
     <script type="text/javascript" src="/qunit-mojo/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="/qunit-mojo/qunit-1.10.0.js"></script>
+    <script>
+        QUnit.config.autostart = false;
+    </script>
     <link rel="stylesheet" href="/qunit-mojo/qunit-1.10.0.css" type="text/css" media="screen"/>
     YOUR_REQUIRE_DOT_JS_CONFIG_GOES_HERE
-    <script type="text/javascript" data-main="YOUR_JAVASCRIPT_TEST_FILE_GOES_HERE" src="/qunit-mojo/require-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/qunit-mojo/require-2.1.1.min.js"></script>
+    <script>
+        require(["YOUR_JAVASCRIPT_TEST_FILE_GOES_HERE"], QUnit.start);
+    </script>
 </head>
 
 <body>
