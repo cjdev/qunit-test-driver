@@ -5,23 +5,45 @@ import java.util.List;
 
 import org.apache.maven.plugin.MojoFailureException;
 
+import com.cj.qunit.mojo.QunitMavenRunner.Runner;
+
 /**
  * @phase test
  * @goal test
  */
 public class QunitMavenRunnerMojo extends AbstractQunitMojo {
     
+    /**
+     * @parameter expression="${qunit.numThreads}"
+     */
+    public Integer numThreads = 1;
+    
+
+
+    /**
+     * @parameter expression="${qunit.runner}" default-value=HTML_UNIT
+     */
+    public String runner;
+    
     public void execute() throws MojoFailureException {
         if(shouldSkipTests()) return;
         
         final List<String> filesRun = new ArrayList<String>();
-        final List<String> problems = new QunitMavenRunner().run(webRoot(), codePaths(), extraPathsToServe(), webPathToRequireDotJsConfig(), new QunitMavenRunner.Listener() {
+        final QunitMavenRunner.Listener listener = new QunitMavenRunner.Listener() {
             @Override
             public void runningTest(String relativePath) {
                 getLog().info("Running " + relativePath);
                 filesRun.add(relativePath);
             }
-        }, returnTimeout());
+        };
+        
+        final List<String> problems = new QunitMavenRunner(numThreads, Runner.valueOf(runner.toUpperCase())).run(
+                                            webRoot(), 
+                                            codePaths(), 
+                                            extraPathsToServe(), 
+                                            webPathToRequireDotJsConfig(), 
+                                            listener, 
+                                            returnTimeout());
         
         if(!problems.isEmpty()){
             StringBuffer problemsString = new StringBuffer();
