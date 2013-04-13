@@ -47,7 +47,6 @@ public class QunitMavenRunner {
             for(File codePath : codePaths){
                 for(QunitTestLocator.LocatedTest test: new QunitTestLocator().locateTests(codePath)){
                     final String name = test.name;
-                    System.out.println("Running " + name);
                     log.runningTest(name);
                     
                     try {
