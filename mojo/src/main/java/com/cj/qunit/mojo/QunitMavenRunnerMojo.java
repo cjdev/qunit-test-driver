@@ -37,7 +37,9 @@ public class QunitMavenRunnerMojo extends AbstractQunitMojo {
             }
         };
         
-        final List<String> problems = new QunitMavenRunner(numThreads, Runner.valueOf(runner.toUpperCase())).run(
+        final Runner runner = Runner.valueOf(this.runner.toUpperCase());
+        
+        final List<String> problems = new QunitMavenRunner(numThreads, runner).run(
                                             webRoot(), 
                                             codePaths(), 
                                             extraPathsToServe(), 
