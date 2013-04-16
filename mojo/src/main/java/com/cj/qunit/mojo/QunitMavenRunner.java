@@ -21,6 +21,7 @@ public class QunitMavenRunner {
                     final QunitTestLocator.LocatedTest test,
                     final String name,  int testTimeout) {
 
+                System.out.println("Running " + name);
                 QUnitTestPage page = new QUnitTestPage(jetty.port, test.relativePath, testTimeout, BrowserVersion.FIREFOX_17, true);
                 page.assertTestsPass();
                 return null;
@@ -42,20 +43,20 @@ public class QunitMavenRunner {
                     String problem;
                     String baseUrl = "http://localhost:" + jetty.port;
                     String url = baseUrl + "/" + test.relativePath;
-                    System.out.println("Executing " + url);
-                    Process phantomjs = Runtime.getRuntime().exec(new String[]{"phantomjs", f.getAbsolutePath(), url});
-                    String stdErr = IOUtils.toString(phantomjs.getErrorStream());
+                    Process phantomjs = new ProcessBuilder().redirectErrorStream(true).command(
+                                                "phantomjs",
+                                                f.getAbsolutePath(),
+                                                url,
+                                                Integer.toString(testTimeout)
+                                            ).start();
                     String stdOut = IOUtils.toString(phantomjs.getInputStream());
-                    System.out.print(stdOut);
-                    System.err.print(stdErr);
+                    System.out.print("Running " + name + "\n" + stdOut);
                     final int exitCode = phantomjs.waitFor();
 
-                    if(exitCode!=0){
-                        problem = "Problems found in '" + name +"':\n" + stdOut + "\nSTDERR:\n" + stdErr;
-                    }else{
-                        problem = null;
-                    }
-                    return problem;
+                    if (exitCode!=0)
+                        return "Problems found in '" + name + "':\n" + stdOut;
+
+                    return null;
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -144,7 +145,6 @@ public class QunitMavenRunner {
                         }
 
                         final String name = test.name;
-                        System.out.println("Running " + name);
                         log.runningTest(name);
 
                         String problem = null;

@@ -32,7 +32,6 @@ public class QunitMavenRunnerMojo extends AbstractQunitMojo {
         final QunitMavenRunner.Listener listener = new QunitMavenRunner.Listener() {
             @Override
             public void runningTest(String relativePath) {
-                getLog().info("Running " + relativePath);
                 filesRun.add(relativePath);
             }
         };
