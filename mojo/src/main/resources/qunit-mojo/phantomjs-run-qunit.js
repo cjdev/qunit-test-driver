@@ -59,9 +59,9 @@
             // Set a timeout on the test running, otherwise tests with async problems will hang forever
             if (typeof timeout === 'number') {
                 setTimeout(function () {
-                    console.error('The specified timeout of ' + timeout + ' seconds has expired. Aborting...');
+                    console.error('The specified timeout of ' + timeout + ' ms has expired. Aborting...');
                     phantom.exit(1);
-                }, timeout * 1000);
+                }, timeout);
             }
         }
     });
