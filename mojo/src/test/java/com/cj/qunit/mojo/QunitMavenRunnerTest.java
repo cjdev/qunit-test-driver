@@ -229,7 +229,7 @@ public class QunitMavenRunnerTest {
         File srcMainHtmlDirectory = new File(projectDirectory, "src/test/whatever");
         srcMainHtmlDirectory.mkdirs();
         
-        for(String name : new String[]{"SomeQunitTest.html", "jquery-1.8.2.min.js", "qunit-1.10.0.css", "qunit-1.10.0.js"}){
+        for(String name : new String[]{"SomeQunitTest.html", "jquery-1.8.2.min.js", "qunit-1.11.0.css", "qunit-1.11.0.js"}){
             copyToDiskFromClasspath(srcMainHtmlDirectory, name);
         }
         
@@ -263,7 +263,7 @@ public class QunitMavenRunnerTest {
         File srcMainHtmlDirectory = new File(projectDirectory, "src/test/html");
         srcMainHtmlDirectory.mkdirs();
         
-        for(String name : new String[]{"SomeFailingQunitTest.html", "jquery-1.8.2.min.js", "qunit-1.10.0.css", "qunit-1.10.0.js"}){
+        for(String name : new String[]{"SomeFailingQunitTest.html", "jquery-1.8.2.min.js", "qunit-1.11.0.css", "qunit-1.11.0.js"}){
             copyToDiskFromClasspath(srcMainHtmlDirectory, name);
         }
         
@@ -291,7 +291,7 @@ public class QunitMavenRunnerTest {
         
         Assert.assertTrue(problem.startsWith("Problems found in 'src/test/html/SomeFailingQunitTest.html'"));
         Assert.assertTrue(problem.contains("module with failing test in it: this test left intentionally failing"));
-        Assert.assertTrue(problem.contains("0 tests of 1 passed, 1 failed"));
+        Assert.assertTrue(problem.contains("0 assertions of 1 passed, 1 failed"));
     }
     
     private static class FakeLog implements QunitMavenRunner.Listener {
