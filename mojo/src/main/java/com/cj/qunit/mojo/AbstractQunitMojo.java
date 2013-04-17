@@ -18,7 +18,7 @@ abstract class AbstractQunitMojo extends AbstractMojo {
     /**
      * @parameter
      */
-    private String webRoot = "/";
+    private String webRoot = "";
     
     /**
      * @parameter
