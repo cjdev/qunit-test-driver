@@ -30,7 +30,7 @@
 
         if (message && message.name === 'QUnit.done') {
             result = message.data;
-            failed = !result || result.failed;
+            failed = !result || result.failed || (result.total === 0);
 
                 // YES! This would be AWESOME! Unfortunately, this always spits out to the current working directory
                 //                  so we'll need to parse out/pass in the test name and target directory
@@ -69,10 +69,6 @@
     function watchForFinishedTests() {
         window.document.addEventListener('DOMContentLoaded', function () {
             QUnit.done(function (result) {
-                if (result.total === 0) {
-                    return; // no tests were run? try to wait for the tests...
-                }
-
                 console.log('Tests run: ' + result.total + ', Passed: ' + result.passed + ', Failures: ' + result.failed + ', Time elapsed: ' + result.runtime + " ms" + (result.failed ? " <<< FAILURE!" : ""));
 
                 if (typeof window.callPhantom === 'function') {
