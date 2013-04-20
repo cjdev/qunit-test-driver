@@ -1,6 +1,9 @@
 package com.cj.qunit.mojo;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -15,7 +18,6 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 public class QunitMavenRunner {
     public enum Runner{
         HTML_UNIT{
-
             String runTest(
                     final WebServerUtils.JettyPlusPort jetty,
                     final QunitTestLocator.LocatedTest test,
@@ -33,14 +35,13 @@ public class QunitMavenRunner {
                     final QunitTestLocator.LocatedTest test,
                     final String name,  int testTimeout) {
                 
+                System.out.println("Wahoo!");
                 
                 try {
                     File f = File.createTempFile("phantomjs-run-qunit", ".js");
                     f.deleteOnExit();
                     FileUtils.write(f, IOUtils.toString(getClass().getResourceAsStream("/qunit-mojo/phantomjs-run-qunit.js")));
                     
-                    
-                    String problem;
                     String baseUrl = "http://localhost:" + jetty.port;
                     String url = baseUrl + "/" + test.relativePath;
                     Process phantomjs = new ProcessBuilder().redirectErrorStream(true).command(
@@ -49,13 +50,22 @@ public class QunitMavenRunner {
                                                 url,
                                                 Integer.toString(testTimeout)
                                             ).start();
-                    String stdOut = IOUtils.toString(phantomjs.getInputStream());
-                    System.out.print("Running " + name + "\n" + stdOut);
+                    
+                    System.out.print("Running " + name);
+                    
+                    System.out.println("phantomjs " + f.getAbsolutePath() + " " + url + " " + Integer.toString(testTimeout));
+                    
+                    copyStreamAsyncOneByteAtATime(phantomjs.getInputStream(), System.out);
+                    copyStreamAsyncOneByteAtATime(phantomjs.getErrorStream(), System.err);
+                    
                     final int exitCode = phantomjs.waitFor();
+                    
+                    System.out.print("Exit code " + exitCode);
 
-                    if (exitCode!=0)
-                        return "Problems found in '" + name + "':\n" + stdOut;
-
+                    if (exitCode!=0){
+                        return "Problems found in '" + name;
+                    }
+                    
                     return null;
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -63,6 +73,23 @@ public class QunitMavenRunner {
             }
         };
 
+        
+        private static void copyStreamAsyncOneByteAtATime(final InputStream in, final OutputStream out){
+            new Thread(){
+                public void run() {
+                    try {
+                        for(int b = in.read();b!=-1;b = in.read()){
+                            out.write(b);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    
+                };
+            }.start();
+            
+        }
+        
         abstract String runTest(
                 final WebServerUtils.JettyPlusPort jetty,
                 final QunitTestLocator.LocatedTest test,

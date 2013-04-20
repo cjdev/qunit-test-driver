@@ -1,15 +1,31 @@
 /*global phantom:false, require:false, console:false, window:false, QUnit:false */
 
+
+function versionCheck(){
+    var version = phantom.version, 
+    versionString = version.major + "." + version.minor + "." + version.patch;
+
+    if(version.major < 1 || (version.major ===1 && version.minor < 9)){
+        console.error("Required phantomjs >= 1.9.0, but found " + versionString);
+        phantom.exit(1);
+    }
+}
+
 (function () {
     'use strict';
 
+    versionCheck();
+    
     var url, page, timeout, args = require('system').args;
-
+    
     if (args.length < 2 || args.length > 3) {
         console.error('Usage:\n  phantomjs runner.js [url-of-your-qunit-testsuite] [timeout-in-seconds]');
         phantom.exit(1);
     }
 
+    
+    
+    
     url = args[1];
     page = require('webpage').create();
     if (args[2] !== undefined) {
