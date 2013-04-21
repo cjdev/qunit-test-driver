@@ -302,6 +302,14 @@ public class QunitMavenRunnerTest {
             pathsRun.add(relativePath);
         }
         
+        @Override
+        public void debug(String info) {
+        }
+        
+        @Override
+        public void initInfo(String info) {
+        }
+        
     }
     
     private void copyToDiskFromClasspath(File srcMainHtmlDirectory, String name)

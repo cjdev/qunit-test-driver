@@ -28,11 +28,22 @@ public class QunitMavenRunnerMojo extends AbstractQunitMojo {
     public void execute() throws MojoFailureException {
         if(shouldSkipTests()) return;
         
+        getLog();
+        
         final List<String> filesRun = new ArrayList<String>();
         final QunitMavenRunner.Listener listener = new QunitMavenRunner.Listener() {
             @Override
             public void runningTest(String relativePath) {
+                getLog().info("Running: " + relativePath);
                 filesRun.add(relativePath);
+            }
+            @Override
+            public void debug(String info) {
+                getLog().debug(info);
+            }
+            @Override
+            public void initInfo(String info) {
+                getLog().info(info);
             }
         };
         

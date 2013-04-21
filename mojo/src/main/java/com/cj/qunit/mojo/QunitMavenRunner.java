@@ -21,21 +21,21 @@ public class QunitMavenRunner {
             String runTest(
                     final WebServerUtils.JettyPlusPort jetty,
                     final QunitTestLocator.LocatedTest test,
-                    final String name,  int testTimeout) {
+                    final String name,  int testTimeout,
+                    final Listener listener) {
 
-                System.out.println("Running " + name);
                 QUnitTestPage page = new QUnitTestPage(jetty.port, test.relativePath, testTimeout, BrowserVersion.FIREFOX_17, true);
                 page.assertTestsPass();
                 return null;
             }
         }, 
         PHANTOMJS{
+            
             String runTest(
                     final WebServerUtils.JettyPlusPort jetty,
                     final QunitTestLocator.LocatedTest test,
-                    final String name,  int testTimeout) {
-                
-                System.out.println("Wahoo!");
+                    final String name,  int testTimeout,
+                    final Listener listener) {
                 
                 try {
                     File f = File.createTempFile("phantomjs-run-qunit", ".js");
@@ -44,23 +44,22 @@ public class QunitMavenRunner {
                     
                     String baseUrl = "http://localhost:" + jetty.port;
                     String url = baseUrl + "/" + test.relativePath;
-                    Process phantomjs = new ProcessBuilder().redirectErrorStream(true).command(
-                                                "phantomjs",
-                                                f.getAbsolutePath(),
-                                                url,
-                                                Integer.toString(testTimeout)
-                                            ).start();
+                    String[] command = {
+                            "phantomjs",
+                            f.getAbsolutePath(),
+                            url,
+                            Integer.toString(testTimeout)};
                     
-                    System.out.print("Running " + name);
+                    Process phantomjs = new ProcessBuilder().redirectErrorStream(true).command(command).start();
                     
-                    System.out.println("phantomjs " + f.getAbsolutePath() + " " + url + " " + Integer.toString(testTimeout));
+                    listener.debug("Executing " + mkString(command, " "));
                     
                     copyStreamAsyncOneByteAtATime(phantomjs.getInputStream(), System.out);
                     copyStreamAsyncOneByteAtATime(phantomjs.getErrorStream(), System.err);
                     
                     final int exitCode = phantomjs.waitFor();
                     
-                    System.out.print("Exit code " + exitCode);
+                    listener.debug("Exit code " + exitCode);
 
                     if (exitCode!=0){
                         return "Problems found in '" + name;
@@ -73,6 +72,17 @@ public class QunitMavenRunner {
             }
         };
 
+        
+        private static <T> String mkString(T[] items, String separator){
+            StringBuilder text = new StringBuilder();
+            for(T next : items){
+                if(text.length()>0){
+                    text.append(separator);
+                }
+                text.append(next);
+            }
+            return text.toString();
+        }
         
         private static void copyStreamAsyncOneByteAtATime(final InputStream in, final OutputStream out){
             new Thread(){
@@ -93,11 +103,14 @@ public class QunitMavenRunner {
         abstract String runTest(
                 final WebServerUtils.JettyPlusPort jetty,
                 final QunitTestLocator.LocatedTest test,
-                final String name,  int testTimeout);
+                final String name,  int testTimeout,
+                final Listener listener);
         }
     
     public static interface Listener {
+        void initInfo(String info);
         void runningTest(String relativePath);
+        void debug(String info);
     }
 
     private static <T> List<T> concat(List<T> ... lists){
@@ -152,7 +165,7 @@ public class QunitMavenRunner {
 
             final List<QunitTestLocator.LocatedTest> testsRemaining = new ArrayList<QunitTestLocator.LocatedTest>(allTests);
 
-            System.out.println("Running with " + numThreads + " threads");
+            log.initInfo("Running with " + numThreads + " threads");
             
             runInParallel(numThreads, new Runnable(){
                 public void run() {
@@ -176,7 +189,7 @@ public class QunitMavenRunner {
 
                         String problem = null;
                         try {
-                            problem = runner.runTest(jetty, test, name, testTimeout);
+                            problem = runner.runTest(jetty, test, name, testTimeout, log);
                         } catch (Throwable m){
                             problem = "Problems found in '" + name +"':\n"+m.getMessage();
                         }   
