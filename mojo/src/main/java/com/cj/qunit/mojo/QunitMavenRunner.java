@@ -17,7 +17,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 public class QunitMavenRunner {
     public enum Runner{
-        HTML_UNIT{
+        HTMLUNIT{
             String runTest(
                     final WebServerUtils.JettyPlusPort jetty,
                     final QunitTestLocator.LocatedTest test,
@@ -127,7 +127,7 @@ public class QunitMavenRunner {
     final Runner runner;
     
     public QunitMavenRunner() {
-        this(1, Runner.HTML_UNIT);
+        this(1, Runner.HTMLUNIT);
     }
     
     public QunitMavenRunner(int numThreads, Runner runner) {
@@ -165,7 +165,7 @@ public class QunitMavenRunner {
 
             final List<QunitTestLocator.LocatedTest> testsRemaining = new ArrayList<QunitTestLocator.LocatedTest>(allTests);
 
-            log.initInfo("Running with " + numThreads + " threads");
+            log.initInfo("Executing qunit tests on " + numThreads + " thread(s) using " + runner.toString().toLowerCase());
             
             runInParallel(numThreads, new Runnable(){
                 public void run() {

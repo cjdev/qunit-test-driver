@@ -19,7 +19,7 @@ public class QunitMavenRunnerMojo extends AbstractQunitMojo {
     public Integer numThreads = 1;
     
     /**
-     * @parameter expression="${qunit.runner}" default-value=HTML_UNIT
+     * @parameter expression="${qunit.runner}" default-value=PHANTOMJS
      */
     public String runner;
     
