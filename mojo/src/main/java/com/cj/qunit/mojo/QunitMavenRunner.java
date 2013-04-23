@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
+import com.cj.qunit.mojo.QunitTestLocator.LocatedTest;
 import com.cj.qunit.mojo.http.WebServerUtils;
 import com.cj.qunitTestDriver.QUnitTestPage;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
@@ -135,9 +136,25 @@ public class QunitMavenRunner {
         this.numThreads = numThreads;
         this.runner = runner;
     }
-
-
+    
+    public boolean matches(final LocatedTest test, final String filterRegex) {
+        final boolean result;
+        if(filterRegex==null){
+            result = true;
+        }else if(filterRegex.startsWith("regex:")){
+            final String patternText = filterRegex.replaceFirst("regex:", "");
+            result = Pattern.compile(patternText).matcher(test.name).matches();
+        }else{
+            result = test.name.contains(filterRegex);
+        }
+        return result;
+    }
+    
     public List<String> run(final String webRoot, final List<File> codePaths, final List<File> extraPathsToServe, final String webPathToRequireDotJsConfig, final Listener log, final int testTimeout) {
+        return this.run(webRoot, codePaths, null, extraPathsToServe, webPathToRequireDotJsConfig, log, testTimeout);
+    }
+    
+    public List<String> run(final String webRoot, final List<File> codePaths, final String filter, final List<File> extraPathsToServe, final String webPathToRequireDotJsConfig, final Listener log, final int testTimeout) {
         final String requireDotJsConfig;
 
         final String normalizedWebRoot = normalizedWebRoot(webRoot);
@@ -156,13 +173,17 @@ public class QunitMavenRunner {
         try{
 
             final List<String> problems = new ArrayList<String>(); 
-
+            
             final List<QunitTestLocator.LocatedTest> allTests = new ArrayList<QunitTestLocator.LocatedTest>();
-
+            
             for(File codePath : codePaths){
-                allTests.addAll(new QunitTestLocator().locateTests(codePath));
+                for(QunitTestLocator.LocatedTest test: new QunitTestLocator().locateTests(codePath)){
+                     if(matches(test, filter)){
+                         allTests.add(test);
+                     }
+                }
             };
-
+            
             final List<QunitTestLocator.LocatedTest> testsRemaining = new ArrayList<QunitTestLocator.LocatedTest>(allTests);
 
             log.initInfo("Executing qunit tests on " + numThreads + " thread(s) using " + runner.toString().toLowerCase());

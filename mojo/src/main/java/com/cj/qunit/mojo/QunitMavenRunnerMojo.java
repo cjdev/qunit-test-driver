@@ -23,6 +23,11 @@ public class QunitMavenRunnerMojo extends AbstractQunitMojo {
      */
     public String runner;
     
+    /**
+     * @parameter expression="${qunit.filter}"
+     */
+    public String filterPattern;
+    
     public void execute() throws MojoFailureException {
         if(shouldSkipTests()) return;
         
@@ -50,6 +55,7 @@ public class QunitMavenRunnerMojo extends AbstractQunitMojo {
         final List<String> problems = new QunitMavenRunner(numThreads, runner).run(
                                             webRoot(), 
                                             codePaths(), 
+                                            filterPattern,
                                             extraPathsToServe(), 
                                             webPathToRequireDotJsConfig(), 
                                             listener, 
