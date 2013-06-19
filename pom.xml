@@ -87,7 +87,7 @@
     </repositories>
 
     <!-- BEGIN: STUFF REQUIRED BY THE CENTRAL REPO -->
-    <description>simple http for the jvm</description>
+    <description>qunit-test-driver</description>
     <url>https://github.com/cjdev/qunit-test-driver</url>
     <licenses>
         <license>
