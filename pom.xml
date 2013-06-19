@@ -12,7 +12,7 @@
 
     <groupId>com.cj.qunit-test-driver</groupId>
     <artifactId>qunit-test-driver-pom</artifactId>
-    <version>1.9.0</version>
+    <version>1.9.1-SNAPSHOT</version>
     
     <packaging>pom</packaging>
     
