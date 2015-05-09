@@ -33,8 +33,8 @@ class PageDriver {
 
                     Thread.sleep(millisToWait)
 		}
-
-                return false;
+ 
+        return false;
 	}
 
 	public boolean containsText(String text){

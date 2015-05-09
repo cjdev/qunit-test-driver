@@ -41,8 +41,9 @@ class QUnitTestDriverTest {
         
         TestStatus broken = page.status().tests[1]
         assertEquals("a broken qunit", broken.name);
-        assertEquals("This is a qunit failure", broken.failures[0])
-        assertEquals("This is another qunit failure", broken.failures[1])
+		
+        assertTrue(broken.failures[0].contains("This is a qunit failure"))
+        assertTrue(broken.failures[1].contains("This is another qunit failure"))
         
         assertEquals(2, page.status().tests.size)
         

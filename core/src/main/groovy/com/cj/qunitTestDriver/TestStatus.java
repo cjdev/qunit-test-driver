@@ -25,10 +25,21 @@ public class TestStatus {
         passed = "pass".equals(testNodeClass);
         failed = "fail".equals(testNodeClass);
         isRunning = "running".equals(testNodeClass);
-        
-
-        assertionsPassed = Integer.valueOf(((DomNode)node.getFirstByXPath(".//*[@class='counts']//*[@class='passed']")).asText());
-        assertionsFailed = Integer.valueOf(((DomNode)node.getFirstByXPath(".//*[@class='counts']//*[@class='failed']")).asText());
+		
+		if(passed)
+		{
+			String successfullTests = ((DomNode)node.getFirstByXPath(".//*[@class='counts']")).asText();
+			if(successfullTests != null)
+			{
+	        	assertionsPassed = Integer.valueOf(successfullTests.substring(1, successfullTests.length()-1));
+        		assertionsFailed = 0;
+			}else
+				throw new RuntimeException("QUnit output not parsable.");
+		}else
+		{
+	        assertionsPassed = Integer.valueOf(((DomNode)node.getFirstByXPath(".//*[@class='counts']//*[@class='passed']")).asText());
+	        assertionsFailed = Integer.valueOf(((DomNode)node.getFirstByXPath(".//*[@class='counts']//*[@class='failed']")).asText());
+		}
         
         List<DomNode> failedAssertionNodes = (List<DomNode>) node.getByXPath(".//li[@class='fail']");
 
